@@ -3,27 +3,16 @@ use std::collections::HashMap;
 use std::cmp;
 use std::fmt;
 
-static myTeams: Vec<i32> = vec![2,4,4,3];
-
-enum Teams {
-    CSK,
-    MI,
-    RCB,
-    SRH,
-    PBKS,
-    KKR,
-    DC,
-    RR
-}
-
-impl fmt::Display for Teams {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            Teams::CSK => return write!(f, "CSK Team"),
-        };
-        write!(f, "IPL Team")
-    }
-}
+static Teams: [&str; 8] = [
+    "CSK",
+    "MI",
+    "RCB",
+    "SRH",
+    "PBKS",
+    "KKR",
+    "DC",
+    "RR"
+];
 
 impl fmt::Display for Match {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -31,73 +20,82 @@ impl fmt::Display for Match {
     }
 }
 
-impl PartialEq for Teams {
-    fn eq(&self, other: &Teams) -> bool {
-        return self == other;
-    }
-}
-
-impl Eq for Teams {}
-
-// impl PartialOrd for Teams {
-//     fn partial_cmp(&self, other: &Teams) -> Option<cmp::Ordering> {
-//         Some(self.cmp(other))
-//     }
-// }
-
-// impl Ord for Teams {
-//     fn cmp(&self, other: &Teams) -> cmp::Ordering {
-//         cmp::Ordering::Less
-//     }
-// }
-
 struct Match {
-    a: Teams, b: Teams
-}
-
-impl Match {
-    // fn switch_teams(&self, )
+    a: String, b: String
 }
 
 struct IplScoreBoard {
-    scores: HashMap<Teams,i8>
+    scores: HashMap<String,i8>
 }
 
 impl IplScoreBoard {
-    fn team_won(&mut self, t: Teams) {
-        self.scores.entry(t).and_modify(|e| { *e += 1 });
+    // WHY CAN'T IT WORK WITHOUT BORROWING HERE
+    fn team_won(&mut self, t: &str) {
+        self.scores.entry(t.to_string()).and_modify(|e| { *e += 1 });
+    }
+    fn team_lost(&mut self, t: &str) {
+        self.scores.entry(t.to_string()).and_modify(|e| { *e -= 1 });
     }
 }
 
-// fn recurse(index: i32, matches: &mut Vec<(Match,bool)>) {   // true means `a` wins, false means `a` loses
-//     if(index == matches.len()) {
-//         // league matches complete
+fn recurse(matches: &[Match], index: usize, points_table: &mut IplScoreBoard, total_possibilities: &mut i32, team_qualifying: &mut HashMap<String,i32>) {   // true means `a` wins, false means `a` loses
+    if index == matches.len() {
+        // league matches complete (`after` the last match)
+        *total_possibilities += 1;
+        println!("Possibility: ");
+        for row in points_table.scores.iter() {
+            println!("\t{}: {}\n", row.0, row.1);
+        }
 
-//         let curr_match = matches[index].0;
+        let mut lowest_qualifying_score = -1;
+        let mut original_positions = [-1,-1,-1,-1];
+        for row in points_table.scores.iter_mut() {
+            if lowest_qualifying_score < *row.1  {
+                lowest_qualifying_score = *row.1;
+                // TODO - HANDLE SETTING ORIGNIAL VALUE TO 0, AND RESTORING IT
+                // original_positions
+            }
+        }
+        // points_table.scores[]
+        for row in points_table.scores.iter_mut() {
+            if lowest_qualifying_score < *row.1  {
+                lowest_qualifying_score = *row.1;
+            }
+            *row.1 = 0;
+        }
+        for row in points_table.scores.iter_mut() {
+            if lowest_qualifying_score < *row.1  {
+                lowest_qualifying_score = *row.1;
+            }
+            *row.1 = 0;
+        }
+        for row in points_table.scores.iter_mut() {
+            if lowest_qualifying_score < *row.1  {
+                lowest_qualifying_score = *row.1;
+            }
+            *row.1 = 0;
+        }
+        // team_qualifying
 
-//         // sort matches accordingly
-//     }
+        // sort matches accordingly
+        // points_table.scores
+        return;
+    }
 
-    
+    points_table.team_won(&matches[index].a);
+    recurse(matches, index+1, points_table, total_possibilities, team_qualifying);
 
-//     matches[index].1 = true;
-//     recurse(index+1, matches);
-
-//     matches[index].1 = false;
-//     recurse(index+1, matches);
-// }
+    points_table.team_lost(&matches[index].a);
+    points_table.team_won(&matches[index].b);
+    recurse(matches, index+1, points_table, total_possibilities, team_qualifying);
+    points_table.team_lost(&matches[index].b);
+}
 
 fn main() {
     let mut initial_scores = HashMap::new();
-
-    initial_scores.insert(Teams::CSK, 0);
-    initial_scores.insert(Teams::DC, 0);
-    initial_scores.insert(Teams::KKR, 0);
-    initial_scores.insert(Teams::MI, 0);
-    initial_scores.insert(Teams::PBKS, 0);
-    initial_scores.insert(Teams::RCB, 0);
-    initial_scores.insert(Teams::RR, 0);
-    initial_scores.insert(Teams::SRH, 0);
+    for team in &Teams {
+        initial_scores.insert(String::from(*team), 0);
+    }
 
     let mut points_table = IplScoreBoard {
         scores: initial_scores
@@ -107,14 +105,17 @@ fn main() {
 
     // Read matches here
     matches.push( Match {
-        a: Teams::MI,
-        b: Teams::RCB,
+        a: String::from("MI"),
+        b: String::from("RCB"),
     });
     matches.push( Match {
-        a: Teams::MI,
-        b: Teams::RCB,
+        a: String::from("CSK"),
+        b: String::from("DC"),
     });
 
+    let mut total_possibilities = 0;
+    let mut team_qualifications = HashMap::new();
+    recurse(&matches, 0, &mut points_table, &mut total_possibilities, &mut team_qualifications);
     for i in matches {
         println!("{}", i);
     }
