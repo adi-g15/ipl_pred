@@ -2,6 +2,7 @@ use std::collections::BTreeMap;
 use std::collections::HashMap;
 use std::cmp;
 use std::fmt;
+mod util;
 
 static Teams: [&str; 8] = [
     "CSK",
@@ -104,6 +105,31 @@ fn main() {
     let mut matches: Vec<Match> = Vec::new();
 
     // Read matches here
+    let matches_json: util::JsonType = match util::json_from_file("../../../data/matches.json"){
+        Some(json_obj) => json_obj,
+        None => {
+            panic!("JSON data couldn't be loaded");
+        }
+    };
+    matches_json.print();
+
+    match matches_json {
+        util::JsonType::ARRAY(all_matches) => {
+            // for row in all_matches.iter() {
+                println!("Total Matches = {}", all_matches.len());
+            // }
+        },
+        matches_json => {
+            panic!("Expected JSON array, but found {:?}", matches_json);
+        }
+    }
+    // for entry in matches_json. {
+    //     entry.
+    //     matches.push( Match {
+    //         // a: String::from()
+    //     })
+    // }
+    return;
     matches.push( Match {
         a: String::from("MI"),
         b: String::from("RCB"),
