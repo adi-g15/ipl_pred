@@ -8,17 +8,19 @@ function way_2() {
 	const nodes = document.querySelectorAll(".match-scroller__item");
 	nodes.forEach((outer_node, i) => {
 		const node = outer_node.querySelector(".match-item__content");
-		const venue = outer_node.querySelector(".match-item__venue")
-		const res = outer_node.querySelector(".match-item__summary")
+		let venue = outer_node.querySelector(".match-item__venue")
+        if(venue)   venue = venue.innerText;
+		let res = outer_node.querySelector(".match-item__summary")
+        if(res)   res = res.innerText;
 		matches.push({
 			'0': node.querySelector('.match-item__team--a .match-item__team-name').innerText,
 			'1': node.querySelector('.match-item__team--b .match-item__team-name').innerText,
 			res,
 			venue,
-			date: [
+			date: (date_nodes[i]) ? [
 				date_nodes[i].querySelector('.match-scroller__day').innerText,
 				date_nodes[i].querySelector('.match-scroller__month').innerText
-			]
+			].join(' '): null
 		});
 	});
 

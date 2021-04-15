@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use std::cmp;
 use std::fmt;
 mod util;
+mod ipl;
 
 static Teams: [&str; 8] = [
     "CSK",
@@ -15,15 +16,7 @@ static Teams: [&str; 8] = [
     "RR"
 ];
 
-impl fmt::Display for Match {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{} vs {}", self.a, self.b)
-    }
-}
-
-struct Match {
-    a: String, b: String
-}
+type Match = ipl::IplLeagueMatch;
 
 struct IplScoreBoard {
     scores: HashMap<String,i8>
@@ -40,6 +33,7 @@ impl IplScoreBoard {
 }
 
 fn recurse(matches: &[Match], index: usize, points_table: &mut IplScoreBoard, total_possibilities: &mut i32, team_qualifying: &mut HashMap<String,i32>) {   // true means `a` wins, false means `a` loses
+    return;
     if index == matches.len() {
         // league matches complete (`after` the last match)
         *total_possibilities += 1;
@@ -83,13 +77,13 @@ fn recurse(matches: &[Match], index: usize, points_table: &mut IplScoreBoard, to
         return;
     }
 
-    points_table.team_won(&matches[index].a);
+    points_table.team_won(&matches[index].team1);
     recurse(matches, index+1, points_table, total_possibilities, team_qualifying);
 
-    points_table.team_lost(&matches[index].a);
-    points_table.team_won(&matches[index].b);
+    points_table.team_lost(&matches[index].team1);
+    points_table.team_won(&matches[index].team2);
     recurse(matches, index+1, points_table, total_possibilities, team_qualifying);
-    points_table.team_lost(&matches[index].b);
+    points_table.team_lost(&matches[index].team2);
 }
 
 fn main() {
@@ -102,47 +96,17 @@ fn main() {
         scores: initial_scores
     };
 
-    let mut matches: Vec<Match> = Vec::new();
+    let matches_json = util::json_from_file("./data/matches.json").expect("JSON data couldn't be loaded");
 
-    // Read matches here
-    let matches_json: util::JsonType = match util::json_from_file("../../../data/matches.json"){
-        Some(json_obj) => json_obj,
-        None => {
-            panic!("JSON data couldn't be loaded");
-        }
-    };
-    matches_json.print();
+    let mut matches = ipl::get_league_matches(&matches_json);
 
-    match matches_json {
-        util::JsonType::ARRAY(all_matches) => {
-            // for row in all_matches.iter() {
-                println!("Total Matches = {}", all_matches.len());
-            // }
-        },
-        matches_json => {
-            panic!("Expected JSON array, but found {:?}", matches_json);
-        }
-    }
-    // for entry in matches_json. {
-    //     entry.
-    //     matches.push( Match {
-    //         // a: String::from()
-    //     })
-    // }
-    return;
-    matches.push( Match {
-        a: String::from("MI"),
-        b: String::from("RCB"),
-    });
-    matches.push( Match {
-        a: String::from("CSK"),
-        b: String::from("DC"),
-    });
+    println!("Total League Matches = {}", matches.len());
 
     let mut total_possibilities = 0;
     let mut team_qualifications = HashMap::new();
     recurse(&matches, 0, &mut points_table, &mut total_possibilities, &mut team_qualifications);
     for i in matches {
-        println!("{}", i);
+        print!("{} vs {}", i.team1, i.team2);
+        println!(" -> {}", match i.result{ Some(result) => result, None => i.date});
     }
 }
