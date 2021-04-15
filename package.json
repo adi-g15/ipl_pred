@@ -1,0 +1,13 @@
+{
+  "name": "ipl_pred",
+  "version": "0.0.5",
+  "description": "Predicts the ideal probability of your team getting into playoffs",
+  "main": "src/main.rs",
+  "repository": "https://github.com/adi-g15/ipl_pred.git",
+  "author": "Aditya Gupta <adityag.ug19.cs@nitp.ac.in>",
+  "license": "Unlicense",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.5",
+    "node-fetch": "^2.6.1"
+  }
+}

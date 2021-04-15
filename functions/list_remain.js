@@ -1,9 +1,9 @@
 const fetch = require("node-fetch");
-const $ = require("cheerio");
+const cheerio = require("cheerio");
 
 function way_2() {
 	const matches = [];
-	const document = $.load("");
+	const $ = cheerio.load("");
 	const date_nodes = document.querySelectorAll(".match-scroller__date");
 	const nodes = document.querySelectorAll(".match-scroller__item");
 	nodes.forEach((outer_node, i) => {
@@ -16,7 +16,7 @@ function way_2() {
 			res,
 			venue,
 			date: [
-				date_nodes[i].querySelector('.match-scroller__day').innerText
+				date_nodes[i].querySelector('.match-scroller__day').innerText,
 				date_nodes[i].querySelector('.match-scroller__month').innerText
 			]
 		});
@@ -30,26 +30,32 @@ exports.handler = async (event, context) => {
         const html = await fetch("https://www.iplt20.com/matches/schedule/men")
                             .then(res => res.text())
 
-        const document = $.load(html);
+        const $ = cheerio.load(html);
         const fixture_div_styles = ".fixture"
         const abbrev_team_name_styles = ".fixture__team-name--abbrv"
 
-        let nodes = document.querySelectorAll(fixture_div_styles)
+        let nodes = $(fixture_div_styles).toArray()
 
-        const matches = []
-        
-        nodes.forEach(node => {
+        const matches = nodes.map((_,node) => {
             const teams = []
-            node.querySelectorAll(abbrev_team_name_styles).forEach(team_node => {
+            let d = node.children(abbrev_team_name_styles)
+            d.forEach(team_node => {
                 teams.push(team_node.innerText);
             })
-            matches.push({
+            return {
                 '0': teams[0],
                 '1': teams[1],
                 'time': time
-            })
+            };
+
+            // matches.push({
+            //     '0': teams[0],
+            //     '1': teams[1],
+            //     'time': time
+            // })
         })
-        
+        console.log(matches.get())
+
         return {
             statusCode: 200,
             body: JSON.stringify(matches)
