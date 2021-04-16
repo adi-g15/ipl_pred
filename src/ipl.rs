@@ -1,6 +1,4 @@
-use crate::util;
-
-use util::JsonType;
+use crate::util::JsonType;
                 /*
 Reasons for using "&**value" ->
 
@@ -27,18 +25,6 @@ pub struct IplLeagueMatch {
     pub result: Option<String>,
     pub venue: Option<String>,
     pub date: String
-}
-
-impl IplLeagueMatch {
-    fn new(team1: String, team2: String, date: String) -> IplLeagueMatch {
-        IplLeagueMatch {
-            team1: team1,
-            team2: team2,
-            result: None,
-            venue: None,
-            date: date
-        }
-    }
 }
 
 pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
@@ -86,14 +72,14 @@ pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
                         JsonType::STRING(team1_name) => String::from(team1_name),
                         _value => String::new()
                     },
-                    team1 => String::new()
+                    _ => String::new()
                 };
                 let team2_name = match team2 {
                     JsonType::OBJECT{ value, .. } => match &**value {
                         JsonType::STRING(team2_name) => String::from(team2_name),
                         _value => String::new()
                     },
-                    team2 => String::new()
+                    _ => String::new()
                 };
 
                 // CONDITIONS   //

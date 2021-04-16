@@ -6,6 +6,10 @@
   "repository": "https://github.com/adi-g15/ipl_pred.git",
   "author": "Aditya Gupta <adityag.ug19.cs@nitp.ac.in>",
   "license": "Unlicense",
+  "scripts": {
+      "wasm": "wasm-pack build",
+      "wasm-cargo": "cargo build --lib --release --target wasm32-unknown-unknown"
+  },
   "dependencies": {
     "cheerio": "^1.0.0-rc.5",
     "node-fetch": "^2.6.1"
