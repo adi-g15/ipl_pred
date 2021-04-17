@@ -111,5 +111,6 @@ pub fn chance_calculator(matches: Vec<ipl::IplLeagueMatch>) -> String {
         println!(" -> {}", match i.result{ Some(result) => result, None => i.date});
     }
 
+    String::new()
     // HashMap::new()
 }
