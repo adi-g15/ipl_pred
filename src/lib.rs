@@ -2,6 +2,17 @@ use std::collections::HashMap;
 mod util;
 mod ipl;
 
+pub enum Teams {
+    CSK,
+    MI,
+    RCB,
+    SRH,
+    PBKS,
+    KKR,
+    DC,
+    RR
+}
+
 static TEAMS: [&str; 8] = [
     "CSK",
     "MI",
@@ -39,9 +50,9 @@ fn recurse(matches: &[ipl::IplLeagueMatch], index: usize, points_table: &mut Ipl
         }
 
         let mut lowest_qualifying_score = -1;
-        let mut original_positions = [-1,-1,-1,-1];
+        let mut team_name: String = String::new();
         for row in points_table.scores.iter_mut() {
-            if lowest_qualifying_score < *row.1  {
+            if lowest_qualifying_score <= *row.1  {
                 lowest_qualifying_score = *row.1;
                 // TODO - HANDLE SETTING ORIGNIAL VALUE TO 0, AND RESTORING IT
                 // original_positions
@@ -49,19 +60,19 @@ fn recurse(matches: &[ipl::IplLeagueMatch], index: usize, points_table: &mut Ipl
         }
         // points_table.scores[]
         for row in points_table.scores.iter_mut() {
-            if lowest_qualifying_score < *row.1  {
+            if lowest_qualifying_score <= *row.1  {
+                lowest_qualifying_score = *row.1;
+                team_name = row.0.to_string();
+            }
+        }
+        for row in points_table.scores.iter_mut() {
+            if lowest_qualifying_score <= *row.1  {
                 lowest_qualifying_score = *row.1;
             }
             *row.1 = 0;
         }
         for row in points_table.scores.iter_mut() {
-            if lowest_qualifying_score < *row.1  {
-                lowest_qualifying_score = *row.1;
-            }
-            *row.1 = 0;
-        }
-        for row in points_table.scores.iter_mut() {
-            if lowest_qualifying_score < *row.1  {
+            if lowest_qualifying_score <= *row.1  {
                 lowest_qualifying_score = *row.1;
             }
             *row.1 = 0;
@@ -82,7 +93,7 @@ fn recurse(matches: &[ipl::IplLeagueMatch], index: usize, points_table: &mut Ipl
     points_table.team_lost(&matches[index].team2);
 }
 
-pub fn chance_calculator(matches: Vec<ipl::IplLeagueMatch>) -> HashMap<String, f32> {
+pub fn chance_calculator(matches: Vec<ipl::IplLeagueMatch>) -> String {
     let mut initial_scores = HashMap::new();
     for team in &TEAMS {
         initial_scores.insert(String::from(*team), 0);
@@ -100,6 +111,5 @@ pub fn chance_calculator(matches: Vec<ipl::IplLeagueMatch>) -> HashMap<String, f
         println!(" -> {}", match i.result{ Some(result) => result, None => i.date});
     }
 
-    HashMap::new()
+    // HashMap::new()
 }
-
