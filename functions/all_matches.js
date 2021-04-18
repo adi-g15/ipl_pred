@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
 const HTMLParser = require("fast-html-parser");
 
-exports.parse_matches_from_scrollbar = async () => {
+async function parse_matches_from_scrollbar() {
     const html = await fetch("https://www.iplt20.com/matches/schedule/men")
                     .then(res => res.text());
 
@@ -71,9 +71,10 @@ const old_api = async (event, context) => {
     return matches;
 }
 
+exports.parse_matches_from_scrollbar = parse_matches_from_scrollbar;
 exports.handler = async (event, context) => {
     try{
-        const matches = parse_matches_from_scrollbar();
+        const matches = await parse_matches_from_scrollbar();
 
         return {
             statusCode: 200,

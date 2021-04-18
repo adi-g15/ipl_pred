@@ -224,7 +224,14 @@ fn recurse(
     };
 }
 
-pub fn chance_calculator(matches: Vec<IplLeagueMatch>) -> String {
+/*
+Only call with force_find_till_end == true, when you are not mad
+
+Instead, use
+`extra_matches_to_compute`
+to tell how many `non-completed` matches to compute
+*/
+pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool, extra_matches_to_compute: u8) -> String {
     let mut points_table = IplScoreBoard::new();
     let mut all_pos_bucket: [HashSet<[u8; 8]>; 10] = [
         HashSet::new(),
@@ -253,8 +260,13 @@ pub fn chance_calculator(matches: Vec<IplLeagueMatch>) -> String {
         finished_matches_count += 1;
     }
 
+    let end_index = if force_find_till_end {
+        matches.len()
+    } else {
+        (finished_matches_count as usize + extra_matches_to_compute as usize).min(matches.len())
+    };
+
     let now = time::Instant::now();
-    let end_index = (finished_matches_count as usize + 24).min(matches.len());
     recurse(
         &matches[0..end_index],
         0,
@@ -264,13 +276,14 @@ pub fn chance_calculator(matches: Vec<IplLeagueMatch>) -> String {
 
     let mut i = 0;
 
-    println!("Time elapsed: {}s", now.elapsed().as_secs_f32());
+    let time_elapsed = now.elapsed().as_secs_f32();
 
     for i in 0..end_index {
         println!("{} - {:?} vs {:?}", i, matches[i].team1, matches[i].team2);
     }
 
     println!("Till {} matches;", end_index);
+    println!("Time elapsed: {}s", time_elapsed);
     unsafe {
         println!("Total Iterations: {}", max_i);
     }
@@ -297,7 +310,7 @@ pub fn chance_calculator(matches: Vec<IplLeagueMatch>) -> String {
     }
     println!("\n{:?}\n", (points_table));
 
-    print!("\nभिन्न संभावनाएं : [ ");
+    print!("भिन्न संभावनाएं : [ ");
 
     for all_pos in &all_pos_bucket {
         print!("{} ", all_pos.len());

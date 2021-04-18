@@ -2,13 +2,31 @@ mod ipl;
 mod util;
 mod decl;
 mod algo;
-use decl::{ Teams };
 
+/**
+ * THIS PROGRAM LISTS THE PERCENT CHANCES OF YOUR TEAM "QUALIFYING"
+ * Kaun playoffs me jeete na jeete koi farak nahi padta hai isko :D
+ *
+ * Note - Better run in release mode, with "cargo run --release", since this is recursive, and takes GADAR amount of time in debug mode
+ *
+ * Basic Usage -
+ *
+ * If you want to compute chances for WHOLE IPL, see the 2nd commented ipl::chance_calculator call
+ * If you want to compute chances for particular matches in future, see the other calls to ipl::chance_calculator
+*/
 fn main() {
     let matches_json = util::json_from_file("./data/matches.json");
-    let mut matches = ipl::get_league_matches(&matches_json);
+    let matches = ipl::get_league_matches(&matches_json);
 
     println!("Total League Matches = {}", matches.len());
 
-    ipl::chance_calculator(matches);
+    // Calculate chances till 20 matches after (EXCLUDING already complete matches)
+    ipl::chance_calculator(matches, false, 20);
+
+    // Calculate chances for WHOLE IPL, ie. say till 49 matches
+    // ipl::chance_calculator(matches, true, 0);   // 2nd arg doesn't matter in this case
+
+    // Calculate chances till 30 matches after (EXCLUDING already complete matches)
+    // ipl::chance_calculator(matches, false, 30);
+
 }
