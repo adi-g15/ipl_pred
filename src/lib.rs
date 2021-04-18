@@ -7,12 +7,20 @@ use wasm_bindgen::prelude::*;
 use decl::{ JsonType };
 
 #[wasm_bindgen]
+extern {
+    fn alert(s: &str);
+}
+
+#[wasm_bindgen]
 pub fn get_chances(json_string: &str) -> String {
     let json = match JsonType::parse(json_string.as_bytes()) {
         Ok(json_obj) => json_obj,
-        Err(err) => panic!("Invalid json: {:?}", err)
+        Err(err) => {
+            panic!("Invalid json: {:?}", err)
+        }
     };
 
+    alert("Fine");
     let scores = ipl::chance_calculator(ipl::get_league_matches(&json), false, 20);
 
     let mut final_json = JsonType::new();
