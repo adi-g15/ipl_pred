@@ -5,7 +5,7 @@ function handleClick(data) {
 }
 
 async function fetchData() {
-    return fetch("https://")
+    return fetch("/")
 }
 
 handleClick( await fetchData() );
