@@ -1,0 +1,3 @@
+[toolchain]
+channel = "stable-x86_64-unknown-linux-gnu"
+targets = [ "wasm32-unknown-unknown" ]
