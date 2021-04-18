@@ -61,27 +61,6 @@ pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
                     None => None,
                 };
 
-                let venue = match entry.get("venue") {
-                    Some(ven_obj) => match ven_obj {
-                        JsonType::OBJECT { value, .. } => match &**value {
-                            JsonType::STRING(venue_str) => String::from(venue_str),
-                            _value => String::new(),
-                        },
-                        _ven_obj => String::new(),
-                    },
-                    None => String::new(),
-                };
-                let date = match entry.get("date") {
-                    Some(date_obj) => match date_obj {
-                        JsonType::OBJECT { value, .. } => match &**value {
-                            JsonType::STRING(date_str) => String::from(date_str),
-                            _value => String::new(),
-                        },
-                        _date_obj => String::new(),
-                    },
-                    None => String::new(),
-                };
-
                 let team1_name = match team1 {
                     JsonType::OBJECT { value, .. } => match &**value {
                         JsonType::STRING(team1_name) => String::from(team1_name),
@@ -102,7 +81,6 @@ pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
                     || team1_name.eq(TBC_TEAM_NAME)
                     || team2_name.is_empty()
                     || team2_name.eq(TBC_TEAM_NAME)
-                    || date.is_empty()
                 {
                     continue;
                 }
@@ -131,8 +109,6 @@ pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
                         "rr" => Teams::RR,
                         _ => panic!("Not Valid Name; Make sure it is one of [CSK,PBKS,MI,RCB,SRH,KKR,DC,RR]")
                     },
-                    date: date,
-                    venue: if venue.is_empty() { None } else { Some(venue) },
                     winner: winner_team
                 } )
             }
@@ -142,8 +118,7 @@ pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
         }
     }
 
-    // return JsonType::ARRAY( all_matches );
-    return all_matches; // all_matches is a vector here
+    return all_matches;
 }
 
 #[allow(non_upper_case_globals)]
