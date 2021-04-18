@@ -1,5 +1,4 @@
 use json_minimal::Json;
-use std::fmt;
 
 pub type JsonType = Json;
 
