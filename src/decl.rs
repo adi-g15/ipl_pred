@@ -4,7 +4,7 @@ use std::fmt;
 pub type JsonType = Json;
 
 #[repr(u8)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Hash)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Hash, enumn::N)]
 pub enum Teams {
     CSK = 0,
     MI = 1,

@@ -1,8 +1,13 @@
+[build]
+	base = "client/"
+	command = "yarn build"
+	publish = "dist/"
+
 [functions]
 	directory = "functions/"
 
 [[redirects]]
-	from = "api/*"
-	to = ".netlify/functions/:splat"
+	from = "/api/*"
+	to = "/.netlify/functions/:splat"
 	status = 200
 

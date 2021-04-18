@@ -1,9 +1,10 @@
 const fetch = require("node-fetch");
 const HTMLParser = require("fast-html-parser");
 
+// BUG - Read line 17; Scores are not returned
 exports.handler = async (event, context) => {
     try {
-        const html = fetch("https://www.iplt20.com/matches/schedule/men")
+        const html = await fetch("https://www.iplt20.com/matches/schedule/men")
             .then(res => res.text())
 
         const document = HTMLParser.parse(html);
@@ -11,7 +12,11 @@ exports.handler = async (event, context) => {
         const live_matches = document.querySelectorAll(".match-item--live");
 
         const data = live_matches.map(match => {
+            // console.log(match.rawText.trim())
             const score_box = match.querySelector(".match-item__scorebox");
+            // BUG - Somehow, .text doesn't have anything in this case
+            // console.log(match.querySelector(".match-item__score--a").rawText.trim())
+            // console.log(match.querySelector(".match-item__score--b").rawText.trim())
 
             return {
                 team1: match.querySelector(".match-item__team--a").text.trim(),

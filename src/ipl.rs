@@ -1,6 +1,6 @@
 use crate::algo::max_element;
 use crate::decl::{IplLeagueMatch, IplScoreBoard, JsonType, Teams};
-use std::collections::HashSet;
+use std::collections::{HashSet, HashMap};
 use std::time;
 
 /*
@@ -231,7 +231,7 @@ Instead, use
 `extra_matches_to_compute`
 to tell how many `non-completed` matches to compute
 */
-pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool, extra_matches_to_compute: u8) -> String {
+pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool, extra_matches_to_compute: u8) -> HashMap<Teams,f64> {
     let mut points_table = IplScoreBoard::new();
     let mut all_pos_bucket: [HashSet<[u8; 8]>; 10] = [
         HashSet::new(),
@@ -274,7 +274,6 @@ pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool
         &mut all_pos_bucket,
     );
 
-    let mut i = 0;
 
     let time_elapsed = now.elapsed().as_secs_f32();
 
@@ -282,23 +281,17 @@ pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool
         println!("{} - {:?} vs {:?}", i, matches[i].team1, matches[i].team2);
     }
 
-    println!("Till {} matches;", end_index);
+    println!("\nTill {} matches;", end_index);
     println!("Time elapsed: {}s", time_elapsed);
     unsafe {
         println!("Total Iterations: {}", max_i);
     }
-    println!("Qualify Possiblities");
+    println!("\nQualify Possiblities");
+    let mut i = 0;
     for total_qualified in &points_table.total_qualifications {
-        let team_val = match i {
-            0 => Teams::CSK,
-            1 => Teams::MI,
-            2 => Teams::RCB,
-            3 => Teams::SRH,
-            4 => Teams::PBKS,
-            5 => Teams::KKR,
-            6 => Teams::DC,
-            7 => Teams::RR,
-            _ => panic!("Invalid team {:?}", (i, total_qualified)),
+        let team_val = match Teams::n(i) {
+            Some(team_enum) => team_enum,
+            None => panic!("Unknown value {} for conversion into Teams enum", i)
         };
 
         println!(
@@ -308,6 +301,7 @@ pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool
         );
         i += 1;
     }
+
     println!("\n{:?}\n", (points_table));
 
     print!("भिन्न संभावनाएं : [ ");
@@ -319,5 +313,19 @@ pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool
 
     println!("\n#CSK 2021 😁\n");
 
-    String::new()
+    let mut final_possibilities = HashMap::new();
+
+    let mut i = 0;
+    for total_qualified in &points_table.total_qualifications {
+        let team_enum = match Teams::n(i) {
+            Some(team_enum) => team_enum,
+            None => panic!("Unknown value {} for conversion into Teams enum", i)
+        };
+
+        final_possibilities.insert(team_enum, 100f64 * (*total_qualified as f64 / points_table.total_possibilities as f64));
+        i += 1;
+    }
+    assert_eq!(i, 8);   // ie. the loop ran AT MAX 7 times
+
+    final_possibilities
 }
