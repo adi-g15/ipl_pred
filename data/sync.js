@@ -17,7 +17,18 @@ fetch("https://www.iplt20.com/matches/schedule/men")
                 venue = venue.text.trim();
             }
             let res = outer_node.querySelector(".match-item__summary")
-            if (res) res = res.text.trim();
+            if (res) {
+                res = res.text.trim();
+
+                res = res.replace("Chennai Super Kings", "CSK");
+                res = res.replace("Royal Challengers Bangalore", "RCB");
+                res = res.replace("Delhi Capitals", "DC");
+                res = res.replace("Kolkata Knight Riders", "KKR");
+                res = res.replace("Punjab Kings", "PBKS");
+                res = res.replace("Mumbai Indians", "MI");
+                res = res.replace("Rajasthan Royals", "RR");
+                res = res.replace("Sunrisers Hyderabad", "SRH");
+            }
 
             matches.push({
                 '0': node.querySelector('.match-item__team--a .match-item__team-name').text.trim(),

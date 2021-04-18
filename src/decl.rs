@@ -1,4 +1,5 @@
 use json_minimal::Json;
+use std::fmt;
 
 pub type JsonType = Json;
 
@@ -19,9 +20,19 @@ pub enum Teams {
 pub struct IplLeagueMatch {
     pub team1: Teams,
     pub team2: Teams,
-    pub result: Option<String>,
+    pub winner: Option<Teams>,  // if its already decided, it will have the winner team
     pub venue: Option<String>,
     pub date: String
+}
+
+impl fmt::Debug for IplLeagueMatch {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("IplLeagueMatch")
+            .field("team1", &self.team1)
+            .field("team2", &self.team2)
+            .field("winner", &self.winner)
+            .finish()
+    }
 }
 
 #[derive(Debug)]

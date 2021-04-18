@@ -2,63 +2,63 @@
     {
         "0": "MI",
         "1": "RCB",
-        "res": "Royal Challengers Bangalore won by 2 wickets",
+        "res": "RCB won by 2 wickets",
         "venue": null,
         "date": "9 Apr"
     },
     {
         "0": "CSK",
         "1": "DC",
-        "res": "Delhi Capitals won by 7 wickets",
+        "res": "DC won by 7 wickets",
         "venue": null,
         "date": "10 Apr"
     },
     {
         "0": "SRH",
         "1": "KKR",
-        "res": "Kolkata Knight Riders won by 10 runs",
+        "res": "KKR won by 10 runs",
         "venue": null,
         "date": "11 Apr"
     },
     {
         "0": "RR",
         "1": "PBKS",
-        "res": "Punjab Kings won by 4 runs",
+        "res": "PBKS won by 4 runs",
         "venue": null,
         "date": "12 Apr"
     },
     {
         "0": "KKR",
         "1": "MI",
-        "res": "Mumbai Indians won by 10 runs",
+        "res": "MI won by 10 runs",
         "venue": null,
         "date": "13 Apr"
     },
     {
         "0": "SRH",
         "1": "RCB",
-        "res": "Royal Challengers Bangalore won by 6 runs",
+        "res": "RCB won by 6 runs",
         "venue": null,
         "date": "14 Apr"
     },
     {
         "0": "RR",
         "1": "DC",
-        "res": "Rajasthan Royals won by 3 wickets",
+        "res": "RR won by 3 wickets",
         "venue": null,
         "date": "15 Apr"
     },
     {
         "0": "PBKS",
         "1": "CSK",
-        "res": "Chennai Super Kings won by 6 wickets",
+        "res": "CSK won by 6 wickets",
         "venue": null,
         "date": "16 Apr"
     },
     {
         "0": "MI",
         "1": "SRH",
-        "res": "Mumbai Indians won by 13 runs",
+        "res": "MI won by 13 runs",
         "venue": null,
         "date": "17 Apr"
     },
