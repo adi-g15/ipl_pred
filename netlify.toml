@@ -1,7 +1,6 @@
 [build]
-	base = "client/"
-	command = "yarn build"
-	publish = "dist/"
+	command = "wasm-pack build && yarn --cwd ./client build"
+	publish = "./client/dist/"
 
 [functions]
 	directory = "functions/"
