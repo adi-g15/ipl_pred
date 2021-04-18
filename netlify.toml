@@ -1,5 +1,5 @@
 [build]
-	command = "cargo build && wasm-pack build && yarn && yarn --cwd ./client build"
+	command = "cargo install wasm-pack && wasm-pack build && yarn && yarn --cwd ./client build"
 	publish = "./client/dist/"
 
 [functions]
