@@ -7,7 +7,7 @@
     "build": "webpack --config webpack.config.js",
     "start": "webpack serve"
   },
-  "devDependencies": {
+  "dependencies": {
     "copy-webpack-plugin": "^8.1.1",
     "ipl_pred": "file:../pkg",
     "webpack": "^5.33.2",
