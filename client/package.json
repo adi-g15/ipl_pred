@@ -12,6 +12,9 @@
     "html-webpack-plugin": "^5.3.1",
     "webpack": "^5.33.2",
     "webpack-cli": "^4.6.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "fast-html-parser": "^1.0.1",
+    "node-fetch": "^2.6.1",
+    "underscore": "^1.13.1"
   }
 }

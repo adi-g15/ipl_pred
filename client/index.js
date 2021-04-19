@@ -4,8 +4,9 @@ const matches_str = `[{"0":"MI","1":"RCB","res":"RCB won by 2 wickets","venue":n
 
 function handleClick(data) {
     console.log( "Data: ", data );
+    const extra_matches_to_compute = 20;
 
-    const possibilities = wasm.get_chances(matches_str);
+    const possibilities = wasm.get_chances(matches_str, extra_matches_to_compute);
 
     console.log("Received from rust: ", possibilities);
 
