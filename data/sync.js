@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 const HTMLParser = require("fast-html-parser");
 const { writeFileSync, existsSync } = require("fs");
 
-fetch("https://www.iplt20.com/matches/schedule/men")
+(async() => await fetch("https://www.iplt20.com/matches/schedule/men")
     .then(res => res.text())
     .then(html => {
         const document = HTMLParser.parse(html);
@@ -55,3 +55,4 @@ fetch("https://www.iplt20.com/matches/schedule/men")
     .catch(err => {
         console.error(err);
     })
+)()

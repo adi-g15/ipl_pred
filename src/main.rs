@@ -2,6 +2,7 @@ mod ipl;
 mod util;
 mod decl;
 mod algo;
+mod graph;
 
 /**
  * THIS PROGRAM LISTS THE PERCENT CHANCES OF YOUR TEAM "QUALIFYING"
@@ -29,4 +30,6 @@ fn main() {
     // Calculate chances till 30 matches after (EXCLUDING already complete matches)
     // ipl::chance_calculator(matches, false, 30);
 
+    // To sync graph_data.json
+    // graph::sync_graph_values(matches);
 }

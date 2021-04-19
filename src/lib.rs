@@ -1,10 +1,10 @@
-mod ipl;
-mod decl;
 mod algo;
+mod decl;
+mod ipl_with_wasm;
 mod util;
 
+use decl::JsonType;
 use wasm_bindgen::prelude::*;
-use decl::{ JsonType };
 
 /*
 We can simply use `web_sys` crate, then we won't need these manual bindings
@@ -23,8 +23,15 @@ extern "C" {
 }
 
 #[wasm_bindgen]
-pub fn get_chances(json_string: &str) -> String {
-    log( "Inside get_chances rust" );
+pub fn get_chances(json_string: &str, mut extra_matches_to_compute: i8) -> String {
+    log("Inside get_chances rust");
+
+    let compute_for_whole_ipl: bool = extra_matches_to_compute == -1;
+
+    if extra_matches_to_compute < 0 {
+        extra_matches_to_compute = 0;   // to make it valid
+    }
+
     let json = match JsonType::parse(json_string.as_bytes()) {
         Ok(json_obj) => json_obj,
         Err(err) => {
@@ -32,22 +39,24 @@ pub fn get_chances(json_string: &str) -> String {
         }
     };
 
-    log( &format!( "Parsed JSON: {}", json.print()) );
-    let scores = ipl::chance_calculator(ipl::get_league_matches(&json), false, 20);
-    log( "Calculated chances" );
+    let league_matches = ipl_with_wasm::get_league_matches(&json);
+    log("Got league matches");
 
+    let scores = ipl_with_wasm::chance_calculator(
+        league_matches,
+        compute_for_whole_ipl,
+        extra_matches_to_compute as u8  // invariant: it is always >= 0, as when it's less than 0 is already handled
+    );
+
+    log("Calculated chances");
     let mut final_json = JsonType::new();
 
     for score in &scores {
-        final_json.add(
-            JsonType::OBJECT{
-                name: util::get_enum_name(score.0),
-                value: Box::new(JsonType::NUMBER(*score.1))
-            }
-        );
+        final_json.add(JsonType::OBJECT {
+            name: util::get_enum_name(score.0),
+            value: Box::new(JsonType::NUMBER(*score.1)),
+        });
     }
-
-    log( "Added scores, now returning..." );
 
     final_json.print()
 }

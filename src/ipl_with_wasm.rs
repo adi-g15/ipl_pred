@@ -1,27 +1,19 @@
 use crate::algo::max_element;
 use crate::decl::{IplLeagueMatch, IplScoreBoard, JsonType, Teams};
-use std::collections::{HashSet, HashMap};
-use std::time;
+use std::collections::{HashMap, HashSet};
+use wasm_bindgen::prelude::*;
 
-/*
-Reasons for using "&**value" ->
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen (js_namespace = console)]
+    fn log(msg: &str);
 
-                    JsonType::OBJECT{name,value} => match *value {
-   |                                                           ------
-   |                                                           |
-   |                                                           this expression has type `Box<Json>`
-   |                                                           help: consider dereferencing the boxed value: `**value`
-25 |                         JsonType::STRING(val_str) => println!("obj - {} {}", name, val_str)
+    #[wasm_bindgen (js_namespace = console, js_name = log)]
+    fn log_usize(num: usize);
 
-JsonType::OBJECT{name,value} => match **value {
-   |                                                           ^^^^^^^ help: consider borrowing here: `&**value`
-25 |                         JsonType::STRING(val_str) => println!("obj - {} {}", name, val_str),
-   |                                          ------- data moved here
-26 |                         value => println!("obj - {} {}", name, value.print())
-   |                         ----- ...and here
-
-*/
-// LEARNT - To ignore a field use ", ..", BUT NOTE THAT IT MUST BE AT END, and NO TRAILING commas
+    #[wasm_bindgen (js_namespace = console)]
+    fn error(msg: &str);
+}
 
 pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
     let mut all_matches = Vec::new();
@@ -96,7 +88,10 @@ pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
                         "kkr" => Teams::KKR,
                         "dc" => Teams::DC,
                         "rr" => Teams::RR,
-                        _ => panic!("Not Valid Name; Make sure it is one of [CSK,PBKS,MI,RCB,SRH,KKR,DC,RR]")
+                        _ => {
+                            error("Not Valid Name; Make sure it is one of [CSK,PBKS,MI,RCB,SRH,KKR,DC,RR]");
+                            panic!("Not Valid Name; Make sure it is one of [CSK,PBKS,MI,RCB,SRH,KKR,DC,RR]")
+                        }
                     },
                     team2: match team2_name.to_lowercase().as_str() {
                         "csk" => Teams::CSK,
@@ -107,13 +102,17 @@ pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
                         "kkr" => Teams::KKR,
                         "dc" => Teams::DC,
                         "rr" => Teams::RR,
-                        _ => panic!("Not Valid Name; Make sure it is one of [CSK,PBKS,MI,RCB,SRH,KKR,DC,RR]")
+                        _ =>  {
+                            error("Not Valid Name; Make sure it is one of [CSK,PBKS,MI,RCB,SRH,KKR,DC,RR]");
+                            panic!("Not Valid Name; Make sure it is one of [CSK,PBKS,MI,RCB,SRH,KKR,DC,RR]")
+                        }
                     },
                     winner: winner_team
                 } )
             }
         }
         json => {
+            error(&format!("Expected JSON array, but found {:?}", json));
             panic!("Expected JSON array, but found {:?}", json);
         }
     }
@@ -122,9 +121,9 @@ pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
 }
 
 #[allow(non_upper_case_globals)]
-pub static mut max_i: usize = 0;
+static mut max_i: usize = 0;
 
-pub fn recurse(
+fn recurse(
     matches: &[IplLeagueMatch],
     index: usize,
     points_table: &mut IplScoreBoard,
@@ -206,7 +205,13 @@ Instead, use
 `extra_matches_to_compute`
 to tell how many `non-completed` matches to compute
 */
-pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool, extra_matches_to_compute: u8) -> HashMap<Teams,f64> {
+pub fn chance_calculator(
+    matches: Vec<IplLeagueMatch>,
+    force_find_till_end: bool,
+    extra_matches_to_compute: u8,
+) -> HashMap<Teams, f64> {
+    log("Inside chance calculator");
+
     let mut points_table = IplScoreBoard::new();
     let mut all_pos_bucket: [HashSet<[u8; 8]>; 10] = [
         HashSet::new(),
@@ -241,52 +246,47 @@ pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool
         (finished_matches_count as usize + extra_matches_to_compute as usize).min(matches.len())
     };
 
-    let now = time::Instant::now();
+    // Calling this in WASM fails
+    // let now = time::Instant::now();
+    log("Going to recurse");
     recurse(
         &matches[0..end_index],
         0,
         &mut points_table,
         &mut all_pos_bucket,
     );
+    log("Completed recurse");
 
-
-    let time_elapsed = now.elapsed().as_secs_f32();
-
-    for i in 0..end_index {
-        println!("{} - {:?} vs {:?}", i, matches[i].team1, matches[i].team2);
-    }
-
-    println!("\nTill {} matches;", end_index);
-    println!("Time elapsed: {}s", time_elapsed);
+    log(&format!("\nTill {} matches;", end_index));
     unsafe {
-        println!("Total Iterations: {}", max_i);
+        log(&format!("Total Iterations: {}", max_i));
     }
-    println!("\nQualify Possiblities");
+    log("\nQualify Possiblities");
     let mut i = 0;
     for total_qualified in &points_table.total_qualifications {
         let team_val = match Teams::n(i) {
             Some(team_enum) => team_enum,
-            None => panic!("Unknown value {} for conversion into Teams enum", i)
+            None => panic!("Unknown value {} for conversion into Teams enum", i),
         };
 
-        println!(
+        log(&format!(
             "{:?} -> {} %",
             team_val,
             100f64 * ((*total_qualified as f64) / points_table.total_possibilities as f64)
-        );
+        ));
         i += 1;
     }
 
-    println!("\n{:?}\n", (points_table));
+    log(&format!("\n{:?}\n", (points_table)));
 
-    print!("भिन्न संभावनाएं : [ ");
-
+    let mut diff_possibilities = Vec::new();
     for all_pos in &all_pos_bucket {
-        print!("{} ", all_pos.len());
+        diff_possibilities.push(all_pos.len());
     }
-    print!("]\n");
 
-    println!("\n#CSK 2021 😁\n");
+    log(&format!("भिन्न संभावनाएं : {:?}", diff_possibilities));
+
+    log("\n#CSK 2021 😁\n");
 
     let mut final_possibilities = HashMap::new();
 
@@ -294,13 +294,16 @@ pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool
     for total_qualified in &points_table.total_qualifications {
         let team_enum = match Teams::n(i) {
             Some(team_enum) => team_enum,
-            None => panic!("Unknown value {} for conversion into Teams enum", i)
+            None => panic!("Unknown value {} for conversion into Teams enum", i),
         };
 
-        final_possibilities.insert(team_enum, 100f64 * (*total_qualified as f64 / points_table.total_possibilities as f64));
+        final_possibilities.insert(
+            team_enum,
+            100f64 * (*total_qualified as f64 / points_table.total_possibilities as f64),
+        );
         i += 1;
     }
-    assert_eq!(i, 8);   // ie. the loop ran AT MAX 7 times
+    assert_eq!(i, 8); // ie. the loop ran AT MAX 7 times
 
     final_possibilities
 }

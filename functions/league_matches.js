@@ -22,7 +22,7 @@ exports.handler = async (event, context) => {
     try {
         const all_matches = parse_matches_from_scrollbar();
         const league_matches = (await all_matches).filter(match => (
-            match['date'] !== null &&
+            // match['date'] !== null &&    // date is not decided for some league matches in ipl too
             match['0'] !== TBC_TEAM_NAME &&
             match['1'] !== TBC_TEAM_NAME
         ));
