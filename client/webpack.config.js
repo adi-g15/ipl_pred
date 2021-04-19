@@ -1,4 +1,5 @@
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+const HTMLWebpackPlugin = require("html-webpack-plugin");
+const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
 const path = require("path");
 
 // @adi-g
@@ -12,13 +13,10 @@ module.exports = {
   },
   mode: "development",
   plugins: [
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: "index.html",
-        },
-      ],
-    }),
+    new HTMLWebpackPlugin(),
+    new WasmPackPlugin({
+      crateDirectory: path.join(__dirname, "../")
+    })
   ],
   experiments: {
     syncWebAssembly: true, // deprecated, see https://github.com/webpack/webpack/issues/11347

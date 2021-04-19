@@ -1,6 +1,7 @@
 [build]
-	command = "cargo install wasm-pack && wasm-pack build && yarn --cwd ./client && yarn --cwd ./client build"
-	publish = "./client/dist/"
+	base = "client/"
+	command = "yarn build"
+	publish = "dist/"
 
 [functions]
 	directory = "functions/"
@@ -9,4 +10,3 @@
 	from = "/api/*"
 	to = "/.netlify/functions/:splat"
 	status = 200
-
