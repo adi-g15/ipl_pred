@@ -22,6 +22,10 @@ module.exports = {
         {
           from: "global.css",
         },
+        {
+          from: "../data/graph_data.json",
+          to: "../data/graph_data.json"
+        }
       ],
     }),
     new WasmPackPlugin({

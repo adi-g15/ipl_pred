@@ -122,7 +122,7 @@ pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
 }
 
 #[allow(non_upper_case_globals)]
-pub static mut max_i: usize = 0;
+pub static mut total_iterations: usize = 0;
 
 pub fn recurse(
     matches: &[IplLeagueMatch],
@@ -132,7 +132,7 @@ pub fn recurse(
 ) {
     // true means `a` wins, false means `a` loses
     unsafe {
-        max_i += 1;
+        total_iterations += 1;
     }
 
     if index % 10 == 0 {
@@ -208,6 +208,10 @@ to tell how many `non-completed` matches to compute
 */
 #[allow(dead_code)]
 pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool, extra_matches_to_compute: u8) -> HashMap<Teams,f64> {
+    unsafe {
+        total_iterations = 0;  // reset total iterations
+    }
+
     let mut points_table = IplScoreBoard::new();
     let mut all_pos_bucket: [HashSet<[u8; 8]>; 10] = [
         HashSet::new(),
@@ -262,7 +266,7 @@ pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool
     println!("\nTill {} matches;", end_index);
     println!("Time elapsed: {}s", time_elapsed);
     unsafe {
-        println!("Total Iterations: {}", max_i);
+        println!("Total Iterations: {}", total_iterations);
     }
     println!("\nQualify Possiblities");
     let mut i = 0;

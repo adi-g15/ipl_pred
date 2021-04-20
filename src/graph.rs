@@ -27,7 +27,7 @@ fn chance_calculator_after_n_matches(
 
     let now = time::Instant::now();
     unsafe {
-        ipl::max_i = 0;
+        ipl::total_iterations = 0;
     }
 
     ipl::recurse(&matches, 0, &mut score_board, all_pos_buckets);
@@ -41,10 +41,10 @@ fn chance_calculator_after_n_matches(
             "After {0} matches results\n\"{0}_msg\": \"Time elapsed: {1}s; Total Iterations: {2}\",",
             after_num_finished_matches,
             time_elapsed,
-            ipl::max_i
+            ipl::total_iterations
         );
 
-        total_iterations = ipl::max_i as u64;
+        total_iterations = ipl::total_iterations as u64;
     }
 
     (

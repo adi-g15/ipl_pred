@@ -1,5 +1,10 @@
+label {
+    margin-bottom: 2vh;
+}
+
 .chose_btn {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
+    /* Green */
     border: none;
     color: white;
     padding: 10px 24px;
@@ -9,12 +14,39 @@
     font-size: 16px;
     margin: 8px 4px;
     cursor: pointer;
-    -webkit-transition-duration: 0.4s; /* Safari */
+    -webkit-transition-duration: 0.4s;
+    /* Safari */
     transition-duration: 0.4s;
 }
 
 .chose_btn:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+#chances_table {
+    margin: 0 auto;
+}
+
+#trends_graph {
+    margin: 1%;
+    width: 180%;
+}
+
+table {
+    margin: 0 auto;
+}
+
+@media only screen and (min-width: 768px) {
+    #chances_table {
+        width: 24%;
+        float: left;
+        margin: 8% 3% 0 3%;
+    }
+    #trends_graph {
+        width: 66%;
+        float: right;
+        margin-right: 2%;
+    }
 }
 
 input {
@@ -26,8 +58,7 @@ input {
     border-bottom: 2px solid black;
 }
 
-thead,
-tfoot {
+thead, tfoot {
     background-color: #3f87a6;
     color: #fff;
 }
@@ -46,11 +77,10 @@ table {
     border: 2px solid rgb(200, 200, 200);
     letter-spacing: 1px;
     font-family: sans-serif;
-    font-size: .8rem;
+    font-size: .9rem;
 }
 
-td,
-th {
+td, th {
     border: 1px solid rgb(190, 190, 190);
     padding: 5px 10px;
 }

@@ -3,6 +3,12 @@
 	command = "yarn build"
 	publish = "dist/"
 
+[dev]
+	command = "yarn --cwd client/ start"
+	publish = "client/dist/"
+	targetPort = 8080
+	framework = "#custom"
+
 [functions]
 	directory = "functions/"
 
