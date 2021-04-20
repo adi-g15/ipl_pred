@@ -19,6 +19,9 @@ module.exports = {
         {
           from: "index.html",
         },
+        {
+          from: "global.css",
+        },
       ],
     }),
     new WasmPackPlugin({
