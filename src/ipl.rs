@@ -206,6 +206,7 @@ Instead, use
 `extra_matches_to_compute`
 to tell how many `non-completed` matches to compute
 */
+#[allow(dead_code)]
 pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool, extra_matches_to_compute: u8) -> HashMap<Teams,f64> {
     let mut points_table = IplScoreBoard::new();
     let mut all_pos_bucket: [HashSet<[u8; 8]>; 10] = [
@@ -240,6 +241,8 @@ pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool
     } else {
         (finished_matches_count as usize + extra_matches_to_compute as usize).min(matches.len())
     };
+
+    println!("Already Finished Matches: {}", finished_matches_count);
 
     let now = time::Instant::now();
     recurse(
