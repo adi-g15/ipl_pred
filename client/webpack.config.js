@@ -1,4 +1,5 @@
-const HTMLWebpackPlugin = require("html-webpack-plugin");
+// const HTMLWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
 const path = require("path");
 
@@ -13,7 +14,13 @@ module.exports = {
   },
   mode: "development",
   plugins: [
-    new HTMLWebpackPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: "index.html",
+        },
+      ],
+    }),
     new WasmPackPlugin({
       crateDirectory: path.join(__dirname, "../")
     })

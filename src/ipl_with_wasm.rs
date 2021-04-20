@@ -240,6 +240,8 @@ pub fn chance_calculator(
         finished_matches_count += 1;
     }
 
+    log(&format!("Already finished matches: {}", finished_matches_count));
+
     let end_index = if force_find_till_end {
         matches.len()
     } else {

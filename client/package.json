@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@wasm-tool/wasm-pack-plugin": "^1.4.0",
+    "copy-webpack-plugin": "^8.1.1",
     "airtable-node": "^0.1.20",
     "fast-html-parser": "^1.0.1",
     "html-webpack-plugin": "^5.3.1",
