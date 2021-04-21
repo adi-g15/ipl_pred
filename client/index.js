@@ -1,6 +1,6 @@
 import * as wasm from "../pkg";
 import graph_data from "../data/graph_data";
-// import * as js_code from "./js_get_chances"; // for BENCHMARKING use only
+import * as js_code from "./js_get_chances"; // for BENCHMARKING use only
 
 /**
  *
@@ -114,9 +114,9 @@ function handleClick(data, extra_matches_to_compute) {
     const possibilities = wasm.get_chances(JSON.stringify(data), extra_matches_to_compute);
     console.info(`[Rust] Elapsed time: ${(Date.now() - call_time)/1000}s`);
 
-    // call_time = Date.now();
-    // const _possibilities = js_code.get_chances(JSON.stringify(data), extra_matches_to_compute);
-    // console.info(`[JS] Elapsed time: ${(Date.now() - call_time)/1000}s`);
+    call_time = Date.now();
+    const _possibilities = js_code.get_chances(JSON.stringify(data), extra_matches_to_compute);
+    console.info(`[JS] Elapsed time: ${(Date.now() - call_time)/1000}s`);
 
     console.log("Received from rust: ", possibilities);
 
