@@ -93,15 +93,15 @@
     {
         "0": "PBKS",
         "1": "SRH",
-        "res": null,
-        "venue": "M. A. Chidambaram Stadium, Chennai",
+        "res": "SRH won by 9 wickets",
+        "venue": null,
         "date": "22 Apr"
     },
     {
         "0": "KKR",
         "1": "CSK",
         "res": null,
-        "venue": "Wankhede Stadium, Mumbai",
+        "venue": null,
         "date": "23 Apr"
     },
     {

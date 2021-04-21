@@ -3,6 +3,8 @@ const { writeFileSync } = require("fs");
 
 const keys = Object.keys(json);
 
+console.log("Prettifying...");
+
 try {
     keys.sort((a, b) => {
         let a_int = 0;

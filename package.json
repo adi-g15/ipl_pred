@@ -7,7 +7,7 @@
   "author": "Aditya Gupta <adityag.ug19.cs@nitp.ac.in>",
   "license": "Unlicense",
   "scripts": {
-    "sync_data": "node ./data/sync",
+    "sync_data": "node ./data/sync && cargo run --release && cd data && node prettify.js && cd ..",
     "wasm": "wasm-pack build",
     "wasm-cargo": "cargo build --lib --release --target wasm32-unknown-unknown"
   },

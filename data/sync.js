@@ -1,3 +1,5 @@
+// On windows: Use taskschd.msc to automatically set it to run each day at some time to refresh the data automatically
+
 const fetch = require("node-fetch");
 const HTMLParser = require("fast-html-parser");
 const { writeFileSync, existsSync } = require("fs");
