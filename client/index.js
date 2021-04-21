@@ -155,6 +155,8 @@ function plotData() {
         } catch { }
     }
 
+    console.log("Plotting Data; Total rows in graph_data (data keys only): ", data_arr);
+
     let x_arr = data_arr.map((_, i) => i);
     let csk_arr = data_arr.map((entry) => entry['CSK']);
     let rr_arr = data_arr.map((entry) => entry['RR']);
