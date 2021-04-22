@@ -6,6 +6,8 @@ The compute intensive algorithm is implemented in Rust, and interfaced to Javasc
 
 It also gives many interesting insights into how the chances change, and affect each other, some observations can be found in data/graph_data.json. And i am planning to use it to show the graph of how the chances varies match by match.
 
+![Screenshot](ss.png)
+
 ### Tech Stack
 
 > Note: Jaan bujh kar complex banaya gaya, taaki jyada se jyada naya try kar paye, jaha kuchh aur simple ho sakta tha, lekin main code ko hamesha simple rkhne ki koshish karta hu

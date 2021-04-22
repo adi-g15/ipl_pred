@@ -308,3 +308,5 @@ function plotData() {
 
 initChancesTable();
 plotData();
+document.getElementById("source_code").innerHTML = `<strong>Source Code:</strong> <a href="https://github.com/adi-g15/ipl_pred" aria-label="Star adi-g15/ipl_pred on GitHub">https://github.com/adi-g15/ipl_pred</a>`;
+

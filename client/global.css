@@ -2,6 +2,19 @@ label {
     margin-bottom: 2vh;
 }
 
+#source_code {
+    margin: 10px auto;
+    width: max-content;
+    font-size: 1.1rem;
+}
+
+.git_logo {
+    border: gray solid 1.5px;
+    width: 70px;
+    border-radius: 12px;
+    padding: 2px 6px;
+}
+
 .chose_btn {
     background-color: #4CAF50;
     /* Green */
