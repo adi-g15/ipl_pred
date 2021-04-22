@@ -2,6 +2,7 @@
 	base = "client/"
 	command = "yarn build"
 	publish = "dist/"
+	ignore = "git diff --quiet HEAD HEAD~1"
 
 [dev]
 	command = "yarn --cwd client/ start"
