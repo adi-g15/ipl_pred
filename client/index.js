@@ -293,7 +293,7 @@ function plotData() {
             // height: '80%',
             // width: '100%',
             xaxis: {
-                title: "Number of matches played",
+                title: "Number of finished matches",
                 // showgrid: false,
                 // zeroline: false
             },
