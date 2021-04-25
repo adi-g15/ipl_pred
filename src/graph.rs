@@ -138,6 +138,13 @@ pub fn sync_graph_values(matches: Vec<IplLeagueMatch>) {
             ))),
         });
 
+        unsafe {
+            graph_data.add(JsonType::OBJECT {
+                name: format!("{}_min_q", after_num_matches),
+                value: Box::new(JsonType::NUMBER((2 * ipl::minimum_wins_qualification) as f64))
+            });
+        }
+
         let mut qualification_data = Vec::new();
 
         // printing qualifications

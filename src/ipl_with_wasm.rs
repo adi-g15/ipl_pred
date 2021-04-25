@@ -122,6 +122,8 @@ pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
 
 #[allow(non_upper_case_globals)]
 static mut total_iterations: usize = 0;
+#[allow(non_upper_case_globals)]
+pub static mut minimum_wins_qualification: u8 = 14; // say a team won 14 of it, is the maximum possible wins, initialising with maximum
 
 fn recurse(
     matches: &[IplLeagueMatch],
@@ -164,6 +166,9 @@ fn recurse(
 
         // we got the 4th lowest score from top
         let lowest_qualifying_score = current_maximum;
+        unsafe {
+            minimum_wins_qualification = minimum_wins_qualification.min(lowest_qualifying_score);
+        }
 
         // restore original values
         for i in &original_scores {
@@ -280,6 +285,10 @@ pub fn chance_calculator(
             100f64 * ((*total_qualified as f64) / points_table.total_possibilities as f64)
         ));
         i += 1;
+    }
+
+    unsafe {
+        log(&format!("Minimum points needed to qualify: {}", 2 * minimum_wins_qualification));
     }
 
     log(&format!("\n{:?}\n", (points_table)));

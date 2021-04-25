@@ -24,7 +24,7 @@ fn main() {
     // Calculate chances till 20 matches after (EXCLUDING already complete matches)
     // ipl::chance_calculator(matches, false, 20);
 
-    // Calculate chances for WHOLE IPL, ie. say till 49 matches
+    // Calculate chances for WHOLE IPL, ie. till 56 matches
     // ipl::chance_calculator(matches, true, 0);   // 2nd arg doesn't matter in this case
 
     // Calculate chances till 30 matches after (EXCLUDING already complete matches)

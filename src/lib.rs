@@ -58,5 +58,12 @@ pub fn get_chances(json_string: &str, mut extra_matches_to_compute: i8) -> Strin
         });
     }
 
+    unsafe {
+        final_json.add(JsonType::OBJECT {
+            name: "min_qual".to_string(),
+            value: Box::new( JsonType::NUMBER( (2*ipl_with_wasm::minimum_wins_qualification) as f64 ) )
+        });
+    }
+
     final_json.print()
 }

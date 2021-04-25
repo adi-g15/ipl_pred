@@ -43,6 +43,28 @@ function get_latest_chance() {
     return data_arr[data_arr.length-1];
 }
 
+/**
+ * @returns {number}
+ */
+function get_latest_min_qualification() {
+    let last_pred = 0;  // 0th match
+    let latest_min = 0;
+    for (const key in graph_data) {
+        if (Object.hasOwnProperty.call(graph_data, key)) {
+            if( ! /^\d+_min_q$/.test(key) ) continue; 
+            let match_num = parseInt(key.substr(0,key.indexOf("_min_q")));
+
+            if( match_num > last_pred ) {
+                console.log("Chosing ", key);
+                last_pred = match_num;
+                latest_min = graph_data[key];
+            }
+        }
+    }
+
+    return latest_min;
+}
+
 function initChancesTable() {
     const latest_chances_data = get_latest_chance();
 
@@ -58,6 +80,12 @@ function initChancesTable() {
 
     // sorted in descending order
     scores_arr.sort((a, b) => b.percentage - a.percentage);
+
+    document.getElementById("chances_table").innerHTML = "";
+    // const qualification = document.createElement("strong");
+    // qualification.id = "score_table_qualification";
+    // qualification.innerText = `Minimum Qualifying Points as of now: ${get_latest_min_qualification()}`;
+    // document.getElementById("chances_table").appendChild(qualification);
 
     const table = document.createElement("table");
     table.id = "score_table_rust";
@@ -94,15 +122,14 @@ function initChancesTable() {
     const caption = document.createElement("caption");
     const notice = document.createElement("strong");
     notice.id = "score_table_notice";
-    notice.innerText = `TILL 56 Matches (ie. IPL ke saare league matches ke baad)`;
+    notice.innerText = `Current Situation (ie. 56 league matches tak)`;
     const p = document.createElement("p");
     p.innerText = "Chances of teams qualifying for PlayOffs";
 
-    caption.appendChild(notice)
+    caption.appendChild(notice);
     caption.appendChild(p);
     table.appendChild(caption);
 
-    document.getElementById("chances_table").innerHTML = "";
     document.getElementById("chances_table").appendChild(table);
 
 }
@@ -124,11 +151,12 @@ function handleClick(data, extra_matches_to_compute) {
 
     const scores_arr = [];
 
-    for (const team in scores) {
-        if (Object.hasOwnProperty.call(scores, team)) {
-            const percentage = scores[team];
+    for (const key in scores) {
+        if (Object.hasOwnProperty.call(scores, key)) {
+            if(key == "min_qual")   continue;
+            const percentage = scores[key];
 
-            scores_arr.push({ team, percentage });
+            scores_arr.push({ team: key, percentage });
         }
     }
 
@@ -146,7 +174,8 @@ function handleClick(data, extra_matches_to_compute) {
         }
 
         document.getElementById("score_table_notice").innerText = `TILL ${extra_matches_to_compute + get_num_finished_matches(data)} Matches`;
-    } catch {
+    } catch(err) {
+        console.error(err);
         initChancesTable();
     }
 
