@@ -128,15 +128,15 @@
     {
         "0": "CSK",
         "1": "RCB",
-        "res": null,
-        "venue": "Wankhede Stadium, Mumbai",
+        "res": "CSK won by 69 runs",
+        "venue": null,
         "date": "27 Apr"
     },
     {
         "0": "SRH",
         "1": "DC",
         "res": null,
-        "venue": "M. A. Chidambaram Stadium, Chennai",
+        "venue": null,
         "date": "28 Apr"
     },
     {
