@@ -135,15 +135,15 @@
     {
         "0": "SRH",
         "1": "DC",
-        "res": null,
+        "res": "Match tied (DC won the Super Over)",
         "venue": null,
         "date": "28 Apr"
     },
     {
         "0": "PBKS",
         "1": "KKR",
-        "res": null,
-        "venue": "Narendra Modi Stadium, Ahmedabad",
+        "res": "KKR won by 5 wickets",
+        "venue": null,
         "date": "29 Apr"
     },
     {
