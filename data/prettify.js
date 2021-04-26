@@ -35,7 +35,7 @@ try {
 
 const output = {};
 
-for (key of keys) {
+for (let key of keys) {
     output[key] = json[key];
 }
 

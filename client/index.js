@@ -199,6 +199,7 @@ async function fetchData() {
                 res: match['res']
             }));
         })
+        .catch(err => {console.error(err)})
 }
 
 fetchData()
@@ -224,8 +225,9 @@ matches_form.addEventListener("submit", (event) => {
             num_match = parseInt(document.getElementById("extra_num").value)
         } catch { }
 
-        resolve(handleClick(window.ipl_json_data, num_match - get_num_finished_matches(window.ipl_json_data)));
-    }).then(() => { });
+        handleClick(window.ipl_json_data, num_match - get_num_finished_matches(window.ipl_json_data));
+        resolve();
+    }).then(() => {});
 })
 
 function plotData() {

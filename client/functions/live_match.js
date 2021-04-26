@@ -6,6 +6,7 @@ exports.handler = async (event, context) => {
     try {
         const html = await fetch("https://www.iplt20.com/matches/schedule/men")
             .then(res => res.text())
+            .catch(err => { throw err; })
 
         const document = HTMLParser.parse(html);
 

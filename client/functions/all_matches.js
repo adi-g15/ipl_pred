@@ -3,7 +3,8 @@ const HTMLParser = require("fast-html-parser");
 
 async function parse_matches_from_scrollbar() {
     const html = await fetch("https://www.iplt20.com/matches/schedule/men")
-                    .then(res => res.text());
+                    .then(res => res.text())
+                    .catch(err => { throw err; })
 
     const document = HTMLParser.parse(html);
 
@@ -48,6 +49,7 @@ async function parse_matches_from_scrollbar() {
 const old_api = async (event, context) => {
     const html = await fetch("https://www.iplt20.com/matches/schedule/men")
                         .then(res => res.text())
+                        .catch(err => { throw err; })
 
     const $ = cheerio.load(html);
     const fixture_div_styles = ".fixture"
