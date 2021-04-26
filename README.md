@@ -2,7 +2,6 @@
 
 <div align=center>
     <a href="https://www.codefactor.io/repository/github/adi-g15/ipl_pred"><img src="https://www.codefactor.io/repository/github/adi-g15/ipl_pred/badge" alt="CodeFactor"></img></a>
-    <a href="https://www.codacy.com/gh/adi-g15/ipl_pred/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=adi-g15/ipl_pred&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/801d429db39c4f17bd71177d0e8c4a13" alt="Codacy Badge"></img></a>
     <a href="https://app.netlify.com/sites/ipl-calculator/deploys"><img src="https://api.netlify.com/api/v1/badges/dc9baf31-365e-4d72-8c50-da63d5ec5cfd/deploy-status" alt="Netlify Status"></img></a>
     <a href="https://www.deepcode.ai/app/gh/adi-g15/ipl_pred/_/dashboard?utm_content=gh%2Fadi-g15%2Fipl_pred"><img src="https://www.deepcode.ai/api/gh/badge?key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwbGF0Zm9ybTEiOiJnaCIsIm93bmVyMSI6ImFkaS1nMTUiLCJyZXBvMSI6ImlwbF9wcmVkIiwiaW5jbHVkZUxpbnQiOmZhbHNlLCJhdXRob3JJZCI6MjIzMzksImlhdCI6MTYxOTQyMzQ4MH0.IlcxXYNi9oydpXfX1FhFxHHQXvr5b28dOgk7VLGf3pw" alt="deepcode"></img></a>
 </div>
