@@ -12,6 +12,7 @@ pub fn json_from_file(filepath: &str) -> JsonType {
             .expect("Failed to parse JSON content")
 }
 
+#[allow(dead_code)]
 pub fn write_json_to_file(json_obj: &JsonType, file_path: &str) -> Result<(),String> {
     if ! std::path::Path::new(file_path).exists() {
         return Err(format!("{} doesn't exist !", file_path));

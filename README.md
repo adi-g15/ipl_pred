@@ -38,8 +38,17 @@ More instructions to README will be added after the graph feature is added
 
 ### Future Tasks
 
-* Graph of deviations in chances for each team, after each match
-* API endpoint to return already computed chances
-* Computing default case in background, and asynchronously request for complete chances from that point on, if available return it, if not return null in data, AND start a task to compute the chances then
+- [] readme हिंदी में 
+
+- [] In case of ties, use the binary condition: Either NRR is less or greater (ignore equals condition, will rarely even occur)
+
+- [] Implement a 'minimum chances' algorithm, that is if the selected team loses all of its future matches
+
+- [X] Graph of deviations in chances for each team, after each match
+
+- [] Computing default case in background, and asynchronously request for complete chances from that point on, if available return it, if not return null in data, AND start a task to compute the chances then
 
 > 3rd one only makes sense to me if on a dedicated backend
+> DROPPED: API endpoint to return already computed chances
+
+Ek CSK fan dwara aapke liye, Aditya Gupta... Create your fork, it's under the Unlicense license 🥳
