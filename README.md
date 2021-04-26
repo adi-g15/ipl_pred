@@ -1,3 +1,5 @@
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/adi-g15/ipl_pred)
+
 # IPL Qualification Calculator
 
 Calculates the mathematical chances of each team qualifying for playoffs in Indian Premier League (Vivo IPL bhi bol sakte hai 🙂)
