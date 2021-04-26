@@ -1,5 +1,6 @@
 mod algo;
 mod decl;
+mod ipl;
 mod ipl_with_wasm;
 mod util;
 
@@ -39,7 +40,7 @@ pub fn get_chances(json_string: &str, mut extra_matches_to_compute: i8) -> Strin
         }
     };
 
-    let league_matches = ipl_with_wasm::get_league_matches(&json);
+    let league_matches = ipl::get_league_matches(&json);
     log("Got league matches");
 
     let scores = ipl_with_wasm::chance_calculator(

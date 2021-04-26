@@ -1,6 +1,7 @@
 use crate::algo::max_element;
 use crate::decl::{IplLeagueMatch, IplScoreBoard, JsonType, Teams};
-use std::collections::{HashSet, HashMap};
+use regex::Regex;
+use std::collections::{HashMap, HashSet};
 use std::time;
 
 /*
@@ -26,6 +27,7 @@ JsonType::OBJECT{name,value} => match **value {
 pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
     let mut all_matches = Vec::new();
     const TBC_TEAM_NAME: &str = "TBC";
+    let winner_regex = Regex::new(r"\w+ won").unwrap();
 
     match json {
         JsonType::ARRAY(json_arr) => {
@@ -42,11 +44,9 @@ pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
                     },
                     None => String::new(),
                 };
-                let winner_team: Option<Teams> = match res.find("won") {
-                    Some(index) => {
-                        let winner_name = &res[0..index].trim();
-
-                        match winner_name.to_lowercase().as_str() {
+                let winner_team: Option<Teams> = match winner_regex.find(&res) {
+                    Some(matched) => {
+                        match res[matched.start()..matched.end() - 4].to_lowercase().as_str() {
                             "csk" => Some(Teams::CSK),
                             "mi" => Some(Teams::MI),
                             "rcb" => Some(Teams::RCB),
@@ -57,7 +57,7 @@ pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
                             "rr" => Some(Teams::RR),
                             _ => None,
                         }
-                    }
+                    } // subtracting 4 for "_won"
                     None => None,
                 };
 
@@ -212,9 +212,13 @@ Instead, use
 to tell how many `non-completed` matches to compute
 */
 #[allow(dead_code)]
-pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool, extra_matches_to_compute: u8) -> HashMap<Teams,f64> {
+pub fn chance_calculator(
+    matches: Vec<IplLeagueMatch>,
+    force_find_till_end: bool,
+    extra_matches_to_compute: u8,
+) -> HashMap<Teams, f64> {
     unsafe {
-        total_iterations = 0;  // reset total iterations
+        total_iterations = 0; // reset total iterations
     }
 
     let mut points_table = IplScoreBoard::new();
@@ -261,7 +265,6 @@ pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool
         &mut all_pos_bucket,
     );
 
-
     let time_elapsed = now.elapsed().as_secs_f32();
 
     for i in 0..end_index {
@@ -278,7 +281,7 @@ pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool
     for total_qualified in &points_table.total_qualifications {
         let team_val = match Teams::n(i) {
             Some(team_enum) => team_enum,
-            None => panic!("Unknown value {} for conversion into Teams enum", i)
+            None => panic!("Unknown value {} for conversion into Teams enum", i),
         };
 
         println!(
@@ -290,7 +293,10 @@ pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool
     }
 
     unsafe {
-        println!("Minimum points needed to qualify: {}", 2 * minimum_wins_qualification);
+        println!(
+            "Minimum points needed to qualify: {}",
+            2 * minimum_wins_qualification
+        );
     }
 
     println!("\n{:?}\n", (points_table));
@@ -310,13 +316,16 @@ pub fn chance_calculator(matches: Vec<IplLeagueMatch>, force_find_till_end: bool
     for total_qualified in &points_table.total_qualifications {
         let team_enum = match Teams::n(i) {
             Some(team_enum) => team_enum,
-            None => panic!("Unknown value {} for conversion into Teams enum", i)
+            None => panic!("Unknown value {} for conversion into Teams enum", i),
         };
 
-        final_possibilities.insert(team_enum, 100f64 * (*total_qualified as f64 / points_table.total_possibilities as f64));
+        final_possibilities.insert(
+            team_enum,
+            100f64 * (*total_qualified as f64 / points_table.total_possibilities as f64),
+        );
         i += 1;
     }
-    assert_eq!(i, 8);   // ie. the loop ran AT MAX 7 times
+    assert_eq!(i, 8); // ie. the loop ran AT MAX 7 times
 
     final_possibilities
 }

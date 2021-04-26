@@ -1,5 +1,5 @@
 use crate::algo::max_element;
-use crate::decl::{IplLeagueMatch, IplScoreBoard, JsonType, Teams};
+use crate::decl::{IplLeagueMatch, IplScoreBoard, Teams};
 use std::collections::{HashMap, HashSet};
 use wasm_bindgen::prelude::*;
 
@@ -13,111 +13,6 @@ extern "C" {
 
     #[wasm_bindgen (js_namespace = console)]
     fn error(msg: &str);
-}
-
-pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
-    let mut all_matches = Vec::new();
-    const TBC_TEAM_NAME: &str = "TBC";
-
-    match json {
-        JsonType::ARRAY(json_arr) => {
-            for entry in json_arr {
-                let team1 = entry.get("0").expect("Team name not found");
-                let team2 = entry.get("1").expect("Team name not found");
-                let res = match entry.get("res") {
-                    Some(res_obj) => match res_obj {
-                        JsonType::OBJECT { value, .. } => match &**value {
-                            JsonType::STRING(result_str) => String::from(result_str),
-                            _value => String::new(),
-                        },
-                        _res_obj => String::new(),
-                    },
-                    None => String::new(),
-                };
-                let winner_team: Option<Teams> = match res.find("won") {
-                    Some(index) => {
-                        let winner_name = &res[0..index].trim();
-
-                        match winner_name.to_lowercase().as_str() {
-                            "csk" => Some(Teams::CSK),
-                            "mi" => Some(Teams::MI),
-                            "rcb" => Some(Teams::RCB),
-                            "srh" => Some(Teams::SRH),
-                            "pbks" => Some(Teams::PBKS),
-                            "kkr" => Some(Teams::KKR),
-                            "dc" => Some(Teams::DC),
-                            "rr" => Some(Teams::RR),
-                            _ => None,
-                        }
-                    }
-                    None => None,
-                };
-
-                let team1_name = match team1 {
-                    JsonType::OBJECT { value, .. } => match &**value {
-                        JsonType::STRING(team1_name) => String::from(team1_name),
-                        _value => String::new(),
-                    },
-                    _ => String::new(),
-                };
-                let team2_name = match team2 {
-                    JsonType::OBJECT { value, .. } => match &**value {
-                        JsonType::STRING(team2_name) => String::from(team2_name),
-                        _value => String::new(),
-                    },
-                    _ => String::new(),
-                };
-
-                // CONDITIONS   //
-                if team1_name.is_empty()
-                    || team1_name.eq(TBC_TEAM_NAME)
-                    || team2_name.is_empty()
-                    || team2_name.eq(TBC_TEAM_NAME)
-                {
-                    continue;
-                }
-                // CONDITIONS   //
-
-                all_matches.push( IplLeagueMatch {
-                    team1: match team1_name.to_lowercase().as_str() {
-                        "csk" => Teams::CSK,
-                        "mi" => Teams::MI,
-                        "rcb" => Teams::RCB,
-                        "srh" => Teams::SRH,
-                        "pbks" => Teams::PBKS,
-                        "kkr" => Teams::KKR,
-                        "dc" => Teams::DC,
-                        "rr" => Teams::RR,
-                        _ => {
-                            error("Not Valid Name; Make sure it is one of [CSK,PBKS,MI,RCB,SRH,KKR,DC,RR]");
-                            panic!("Not Valid Name; Make sure it is one of [CSK,PBKS,MI,RCB,SRH,KKR,DC,RR]")
-                        }
-                    },
-                    team2: match team2_name.to_lowercase().as_str() {
-                        "csk" => Teams::CSK,
-                        "mi" => Teams::MI,
-                        "rcb" => Teams::RCB,
-                        "srh" => Teams::SRH,
-                        "pbks" => Teams::PBKS,
-                        "kkr" => Teams::KKR,
-                        "dc" => Teams::DC,
-                        "rr" => Teams::RR,
-                        _ =>  {
-                            error("Not Valid Name; Make sure it is one of [CSK,PBKS,MI,RCB,SRH,KKR,DC,RR]");
-                            panic!("Not Valid Name; Make sure it is one of [CSK,PBKS,MI,RCB,SRH,KKR,DC,RR]")
-                        }
-                    },
-                    winner: winner_team
-                } )
-            }
-        }
-        json => {
-            error(&format!("Expected JSON array, but found {:?}", json));
-            panic!("Expected JSON array, but found {:?}", json);
-        }
-    }
-
-    return all_matches;
 }
 
 #[allow(non_upper_case_globals)]
