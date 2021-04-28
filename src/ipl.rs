@@ -1,5 +1,6 @@
 use crate::algo::max_element;
 use crate::decl::{IplLeagueMatch, IplScoreBoard, JsonType, Teams};
+use crate::util;
 use regex::Regex;
 use std::collections::{HashMap, HashSet};
 use std::time;
@@ -46,7 +47,10 @@ pub fn get_league_matches(json: &JsonType) -> Vec<IplLeagueMatch> {
                 };
                 let winner_team: Option<Teams> = match winner_regex.find(&res) {
                     Some(matched) => {
-                        match res[matched.start()..matched.end() - 4].to_lowercase().as_str() {
+                        match res[matched.start()..matched.end() - 4]
+                            .to_lowercase()
+                            .as_str()
+                        {
                             "csk" => Some(Teams::CSK),
                             "mi" => Some(Teams::MI),
                             "rcb" => Some(Teams::RCB),
@@ -126,6 +130,59 @@ pub static mut total_iterations: usize = 0;
 #[allow(non_upper_case_globals)]
 pub static mut minimum_wins_qualification: u8 = 14; // say a team won 14 of it, is the maximum possible wins, initialising with maximum
 
+pub fn update_points_table(points_table: &mut IplScoreBoard) {
+    points_table.total_possibilities += 1;
+
+    let mut original_scores: [(u8, usize); 4] = [(0u8, 0); 4]; // original top 4 scores and indices
+
+    let (current_maximum, max_index) = max_element(&points_table.scores);
+    original_scores[0] = (current_maximum, max_index);
+    points_table.scores[max_index] = 0;
+
+    let (current_maximum, max_index) = max_element(&points_table.scores);
+    original_scores[1] = (current_maximum, max_index);
+    points_table.scores[max_index] = 0;
+
+    let (current_maximum, max_index) = max_element(&points_table.scores);
+    original_scores[2] = (current_maximum, max_index);
+    points_table.scores[max_index] = 0;
+
+    let (current_maximum, max_index) = max_element(&points_table.scores);
+    original_scores[3] = (current_maximum, max_index);
+    points_table.scores[max_index] = 0;
+
+    // we got the 4th lowest score from top
+    let lowest_qualifying_score = current_maximum;
+    unsafe {
+        minimum_wins_qualification = minimum_wins_qualification.min(lowest_qualifying_score);
+    }
+
+    // restore original values
+    for i in &original_scores {
+        let org = *i;
+        points_table.scores[org.1] = org.0;
+    }
+
+    // chose which teams qualified
+    for i in 0..8 {
+        if points_table.scores[i as usize] >= lowest_qualifying_score {
+            points_table.total_qualifications[i as usize] += 1;
+        }
+    }
+}
+
+pub fn get_num_finished_matches(matches: &[IplLeagueMatch]) -> u8 {
+    let mut finished_matches_count = 0u8;
+    for i in matches {
+        if i.winner == None {
+            break;
+        }
+        finished_matches_count += 1;
+    }
+
+    finished_matches_count
+}
+
 pub fn recurse(
     matches: &[IplLeagueMatch],
     index: usize,
@@ -145,45 +202,7 @@ pub fn recurse(
 
     if index == matches.len() {
         // league matches complete (`after` the last match)
-        points_table.total_possibilities += 1;
-
-        let mut original_scores: [(u8, usize); 4] = [(0u8, 0); 4]; // original top 4 scores and indices
-
-        let (current_maximum, max_index) = max_element(&points_table.scores);
-        original_scores[0] = (current_maximum, max_index);
-        points_table.scores[max_index] = 0;
-
-        let (current_maximum, max_index) = max_element(&points_table.scores);
-        original_scores[1] = (current_maximum, max_index);
-        points_table.scores[max_index] = 0;
-
-        let (current_maximum, max_index) = max_element(&points_table.scores);
-        original_scores[2] = (current_maximum, max_index);
-        points_table.scores[max_index] = 0;
-
-        let (current_maximum, max_index) = max_element(&points_table.scores);
-        original_scores[3] = (current_maximum, max_index);
-        points_table.scores[max_index] = 0;
-
-        // we got the 4th lowest score from top
-        let lowest_qualifying_score = current_maximum;
-        unsafe {
-            minimum_wins_qualification = minimum_wins_qualification.min(lowest_qualifying_score);
-        }
-
-        // restore original values
-        for i in &original_scores {
-            let org = *i;
-            points_table.scores[org.1] = org.0;
-        }
-
-        // chose which teams qualified
-        for i in 0..8 {
-            if points_table.scores[i as usize] >= lowest_qualifying_score {
-                points_table.total_qualifications[i as usize] += 1;
-            }
-        }
-
+        update_points_table(points_table);
         return;
     }
 
@@ -211,6 +230,31 @@ Instead, use
 `extra_matches_to_compute`
 to tell how many `non-completed` matches to compute
 */
+
+#[allow(dead_code)]
+pub fn minimum_chances_calculator(mut matches: Vec<IplLeagueMatch>, team: Teams) -> HashMap<Teams, f64>{
+    let mut total_won_by_team = 0;
+    for i in matches.iter_mut() {
+        if i.winner == None {
+            if i.team1 == team {
+                println!("{:?} lost to {:?}", team, i.team2);
+                i.winner.replace(i.team2);
+            } else if i.team2 == team {
+                println!("{:?} lost to {:?}", team, i.team1);
+                i.winner.replace(i.team1);
+            }
+        } else {
+            if i.winner == Some(team) {
+                total_won_by_team += 1;
+            }
+        }
+    }
+
+    println!("Total matches won by {:?} -> {}", team, total_won_by_team);
+
+    chance_calculator(matches, true, 0)
+}
+
 #[allow(dead_code)]
 pub fn chance_calculator(
     matches: Vec<IplLeagueMatch>,
@@ -235,24 +279,12 @@ pub fn chance_calculator(
         HashSet::new(),
     ];
 
-    // BUG REGION - These three lines will cause a panic
-    // recurse(&matches[0..5], 0, &mut points_table, &mut all_pos);
-    // recurse(&matches[5..10], 0, &mut points_table, &mut all_pos);
-    // recurse(&matches[10..15], 0, &mut points_table, &mut all_pos);
-    // BUG REGION
-
-    let mut finished_matches_count = 0u8;
-    for i in &matches {
-        if i.winner == None {
-            break;
-        }
-        finished_matches_count += 1;
-    }
+    let finished_matches_count = get_num_finished_matches(&matches) as usize;
 
     let end_index = if force_find_till_end {
         matches.len()
     } else {
-        (finished_matches_count as usize + extra_matches_to_compute as usize).min(matches.len())
+        (finished_matches_count + extra_matches_to_compute as usize).min(matches.len())
     };
 
     println!("Already Finished Matches: {}", finished_matches_count);
@@ -267,9 +299,7 @@ pub fn chance_calculator(
 
     let time_elapsed = now.elapsed().as_secs_f32();
 
-    for i in 0..end_index {
-        println!("{} - {:?} vs {:?}", i, matches[i].team1, matches[i].team2);
-    }
+    util::print_all_matches(&matches[0..end_index]);
 
     println!("\nTill {} matches;", end_index);
     println!("Time elapsed: {}s", time_elapsed);

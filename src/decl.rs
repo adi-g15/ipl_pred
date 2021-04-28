@@ -12,21 +12,33 @@ pub enum Teams {
     PBKS = 4,
     KKR = 5,
     DC = 6,
-    RR = 7
+    RR = 7,
 }
+
+#[allow(dead_code)]
+pub static ALL_TEAMS: [Teams; 8] = [
+    Teams::CSK,
+    Teams::MI,
+    Teams::RCB,
+    Teams::SRH,
+    Teams::PBKS,
+    Teams::KKR,
+    Teams::DC,
+    Teams::RR,
+];
 
 #[derive(Clone, Debug)]
 pub struct IplLeagueMatch {
     pub team1: Teams,
     pub team2: Teams,
-    pub winner: Option<Teams>  // if its already decided, it will have the winner team
+    pub winner: Option<Teams>, // if its already decided, it will have the winner team
 }
 
 #[derive(Debug)]
 pub struct IplScoreBoard {
     pub total_possibilities: u32,
     pub total_qualifications: [u32; 8], // index as in Teams enums
-    pub scores: [u8; 8] // scores, in index, as is Teams enum
+    pub scores: [u8; 8],                // scores, in index, as is Teams enum
 }
 
 impl IplScoreBoard {
@@ -34,7 +46,7 @@ impl IplScoreBoard {
         IplScoreBoard {
             scores: [0u8; 8],
             total_qualifications: [0u32; 8],
-            total_possibilities: 0
+            total_possibilities: 0,
         }
     }
 

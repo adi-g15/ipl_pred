@@ -30,6 +30,9 @@ fn main() {
     // Calculate chances till 30 matches after (EXCLUDING already complete matches)
     // ipl::chance_calculator(matches, false, 30);
 
+    // Calculate MINIMUM qualification chances for a team
+    // ipl::minimum_chances_calculator(matches, decl::Teams::RCB);   // 2nd arg doesn't matter in this case
+
     // To sync graph_data.json
     graph::sync_graph_values(matches);
 }

@@ -1,4 +1,4 @@
-use crate::algo::max_element;
+use crate::ipl;
 use crate::decl::{IplLeagueMatch, IplScoreBoard, Teams};
 use std::collections::{HashMap, HashSet};
 use wasm_bindgen::prelude::*;
@@ -39,45 +39,7 @@ fn recurse(
 
     if index == matches.len() {
         // league matches complete (`after` the last match)
-        points_table.total_possibilities += 1;
-
-        let mut original_scores: [(u8, usize); 4] = [(0u8, 0); 4]; // original top 4 scores and indices
-
-        let (current_maximum, max_index) = max_element(&points_table.scores);
-        original_scores[0] = (current_maximum, max_index);
-        points_table.scores[max_index] = 0;
-
-        let (current_maximum, max_index) = max_element(&points_table.scores);
-        original_scores[1] = (current_maximum, max_index);
-        points_table.scores[max_index] = 0;
-
-        let (current_maximum, max_index) = max_element(&points_table.scores);
-        original_scores[2] = (current_maximum, max_index);
-        points_table.scores[max_index] = 0;
-
-        let (current_maximum, max_index) = max_element(&points_table.scores);
-        original_scores[3] = (current_maximum, max_index);
-        points_table.scores[max_index] = 0;
-
-        // we got the 4th lowest score from top
-        let lowest_qualifying_score = current_maximum;
-        unsafe {
-            minimum_wins_qualification = minimum_wins_qualification.min(lowest_qualifying_score);
-        }
-
-        // restore original values
-        for i in &original_scores {
-            let org = *i;
-            points_table.scores[org.1] = org.0;
-        }
-
-        // chose which teams qualified
-        for i in 0..8 {
-            if points_table.scores[i as usize] >= lowest_qualifying_score {
-                points_table.total_qualifications[i as usize] += 1;
-            }
-        }
-
+        ipl::update_points_table(points_table);
         return;
     }
 
@@ -98,13 +60,6 @@ fn recurse(
     };
 }
 
-/*
-Only call with force_find_till_end == true, when you are not mad
-
-Instead, use
-`extra_matches_to_compute`
-to tell how many `non-completed` matches to compute
-*/
 pub fn chance_calculator(
     matches: Vec<IplLeagueMatch>,
     force_find_till_end: bool,
@@ -129,19 +84,7 @@ pub fn chance_calculator(
         HashSet::new(),
     ];
 
-    // BUG REGION - These three lines will cause a panic
-    // recurse(&matches[0..5], 0, &mut points_table, &mut all_pos);
-    // recurse(&matches[5..10], 0, &mut points_table, &mut all_pos);
-    // recurse(&matches[10..15], 0, &mut points_table, &mut all_pos);
-    // BUG REGION
-
-    let mut finished_matches_count = 0u8;
-    for i in &matches {
-        if i.winner == None {
-            break;
-        }
-        finished_matches_count += 1;
-    }
+    let finished_matches_count = ipl::get_num_finished_matches(&matches) as usize;
 
     log(&format!("Already finished matches: {}", finished_matches_count));
 
