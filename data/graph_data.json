@@ -289,6 +289,16 @@
         "DC": 85.00730456141595,
         "RR": 46.982309992728695
     },
+    "29": {
+        "CSK": 85.22807169378952,
+        "MI": 67.77157063379246,
+        "RCB": 85.8286473395912,
+        "SRH": 13.425046566344786,
+        "PBKS": 35.440588083917454,
+        "KKR": 28.206491103377285,
+        "DC": 94.29548873217,
+        "RR": 46.93211653227783
+    },
     "msg": "This means that AFTER 0 matches, the probabilities of qualifications was this",
     "0_msg": "Actually calculated for 0 till 49 matches, though the qualify chances was exactly same, and will likely be like this even for upto 56 matchess",
     "1_msg": "Time elapsed: 980.4512s; Total Iterations: 12699466096",
@@ -338,5 +348,7 @@
     "27_msg": "Time elapsed: 0.8286129s; Total Iterations: 26265642",
     "27_min_q": 10,
     "28_msg": "Time elapsed: 0.5942756s; Total Iterations: 19651667",
-    "28_min_q": 10
+    "28_min_q": 10,
+    "29_msg": "Time elapsed: 0.5105579s; Total Iterations: 13400240",
+    "29_min_q": 10
 }
