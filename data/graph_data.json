@@ -299,6 +299,46 @@
         "DC": 94.29548873217,
         "RR": 46.93211653227783
     },
+    "30": {
+        "CSK": 93.5204970008923,
+        "MI": 59.76594773455831,
+        "RCB": 86.37734847483394,
+        "SRH": 11.961936944380184,
+        "PBKS": 36.223416999900856,
+        "KKR": 28.527282172246277,
+        "DC": 93.5953455996563,
+        "RR": 47.70533147162828
+    },
+    "31": {
+        "CSK": 93.71474781960065,
+        "MI": 59.96137680743631,
+        "RCB": 82.05854085379849,
+        "SRH": 11.979501377094332,
+        "PBKS": 36.275605347716315,
+        "KKR": 36.21184301124627,
+        "DC": 93.66389574248336,
+        "RR": 47.868874799173746
+    },
+    "32": {
+        "CSK": 93.83029571042928,
+        "MI": 60.4347902126679,
+        "RCB": 82.85395954042664,
+        "SRH": 11.576985119831445,
+        "PBKS": 23.014211466289176,
+        "KKR": 36.16228683829339,
+        "DC": 93.74166694100606,
+        "RR": 60.776394192783776
+    },
+    "33": {
+        "CSK": 93.97843268782081,
+        "MI": 59.97178313112459,
+        "RCB": 82.54345543630424,
+        "SRH": 4.4518490433971065,
+        "PBKS": 22.355999183387773,
+        "KKR": 35.111555062995805,
+        "DC": 98.43626049930005,
+        "RR": 60.387088777414846
+    },
     "msg": "This means that AFTER 0 matches, the probabilities of qualifications was this",
     "0_msg": "Actually calculated for 0 till 49 matches, though the qualify chances was exactly same, and will likely be like this even for upto 56 matchess",
     "1_msg": "Time elapsed: 980.4512s; Total Iterations: 12699466096",
@@ -350,5 +390,13 @@
     "28_msg": "Time elapsed: 0.5942756s; Total Iterations: 19651667",
     "28_min_q": 10,
     "29_msg": "Time elapsed: 0.5105579s; Total Iterations: 13400240",
-    "29_min_q": 10
+    "29_min_q": 10,
+    "30_msg": "Time elapsed: 0.41083702s; Total Iterations: 8805841",
+    "30_min_q": 10,
+    "31_msg": "Time elapsed: 0.25921082s; Total Iterations: 6227434",
+    "31_min_q": 10,
+    "32_msg": "Time elapsed: 0.17876959s; Total Iterations: 4257579",
+    "32_min_q": 10,
+    "33_msg": "Time elapsed: 0.119774655s; Total Iterations: 2945988",
+    "33_min_q": 10
 }
