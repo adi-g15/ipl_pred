@@ -6,6 +6,7 @@
   "repository": "https://github.com/adi-g15/ipl_pred.git",
   "author": "Aditya Gupta <adityag.ug19.cs@nitp.ac.in>",
   "license": "Unlicense",
+  "type": "module",
   "scripts": {
     "sync_data": "node ./data/sync && cargo run --release && cd data && node prettify.js && cd ..",
     "wasm": "wasm-pack build",
@@ -13,7 +14,7 @@
   },
   "dependencies": {
     "fast-html-parser": "^1.0.1",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^3.0.0",
     "underscore": "^1.13.1"
   }
 }

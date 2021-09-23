@@ -1,6 +1,10 @@
-const json = require("./graph_data.json");
-const { writeFileSync } = require("fs");
+import { readFileSync, writeFileSync } from "fs";
+import path from "path";
+import {fileURLToPath} from "url";
 
+// Using __dirname in ES modules: https://stackoverflow.com/a/69242626/12339402
+const json_path = path.join( path.dirname(fileURLToPath(import.meta.url)), "graph_data.json" );
+const json = JSON.parse( readFileSync(json_path) );
 const keys = Object.keys(json);
 
 console.log("Prettifying...");
@@ -39,5 +43,4 @@ for (let key of keys) {
     output[key] = json[key];
 }
 
-// writeFileSync("graph_data.json", JSON.stringify(json, null, 4));
-writeFileSync("graph_data.json", JSON.stringify(output, null, 4));
+writeFileSync(json_path, JSON.stringify(output, null, 4));

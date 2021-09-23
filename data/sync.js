@@ -1,8 +1,8 @@
 // On windows: Use taskschd.msc to automatically set it to run each day at some time to refresh the data automatically
 
-const fetch = require("node-fetch");
-const HTMLParser = require("fast-html-parser");
-const { writeFileSync, existsSync } = require("fs");
+import fetch from "node-fetch";
+import HTMLParser from "fast-html-parser";
+import { writeFileSync, existsSync } from "fs";
 
 (async() => await fetch("https://www.iplt20.com/matches/schedule/men")
     .then(res => res.text())
@@ -53,8 +53,5 @@ const { writeFileSync, existsSync } = require("fs");
             writeFileSync("matches.json", JSON.stringify(matches, null, 4));
 
         console.log("Updated data/matches.json");
-    })
-    .catch(err => {
-        console.error(err);
     })
 )()
