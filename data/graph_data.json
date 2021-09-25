@@ -349,6 +349,36 @@
         "DC": 98.68963804422944,
         "RR": 61.88860573600553
     },
+    "35": {
+        "CSK": 99.21809141201264,
+        "MI": 47.941253951527926,
+        "RCB": 76.85869994731296,
+        "SRH": 4.902199683877766,
+        "PBKS": 23.012216807165437,
+        "KKR": 48.24371048472076,
+        "DC": 98.86920442571127,
+        "RR": 62.724578503688086
+    },
+    "36": {
+        "CSK": 99.5857201309329,
+        "MI": 50.48971972176759,
+        "RCB": 79.2049406710311,
+        "SRH": 5.514781096563012,
+        "PBKS": 24.847074468085108,
+        "KKR": 50.87152209492635,
+        "DC": 99.99386252045826,
+        "RR": 50.90885842880524
+    },
+    "37": {
+        "CSK": 99.57612597911228,
+        "MI": 49.49534921671018,
+        "RCB": 78.69002937336815,
+        "SRH": 1.1386259791122715,
+        "PBKS": 34.41294060052219,
+        "KKR": 49.8980091383812,
+        "DC": 99.9951044386423,
+        "RR": 49.92819843342037
+    },
     "msg": "This means that AFTER 0 matches, the probabilities of qualifications was this",
     "0_msg": "Actually calculated for 0 till 49 matches, though the qualify chances was exactly same, and will likely be like this even for upto 56 matchess",
     "1_msg": "Time elapsed: 980.4512s; Total Iterations: 12699466096",
@@ -410,5 +440,11 @@
     "33_msg": "Time elapsed: 0.119774655s; Total Iterations: 2945988",
     "33_min_q": 10,
     "34_msg": "Time elapsed: 0.05357668s; Total Iterations: 1954325",
-    "34_min_q": 10
+    "34_min_q": 10,
+    "35_msg": "Time elapsed: 0.051290456s; Total Iterations: 1261310",
+    "35_min_q": 10,
+    "36_msg": "Time elapsed: 0.03249715s; Total Iterations: 802663",
+    "36_min_q": 10,
+    "37_msg": "Time elapsed: 0.02130298s; Total Iterations: 499000",
+    "37_min_q": 10
 }

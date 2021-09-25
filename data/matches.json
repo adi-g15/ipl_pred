@@ -240,22 +240,22 @@
     {
         "0": "RCB",
         "1": "CSK",
-        "res": null,
-        "venue": "Sharjah Cricket Stadium, Sharjah",
+        "res": "CSK won by 6 wickets",
+        "venue": null,
         "date": "29 Sep"
     },
     {
         "0": "DC",
         "1": "RR",
-        "res": null,
-        "venue": "Zayed Cricket Stadium, Abu Dhabi",
+        "res": "DC won by 33 runs",
+        "venue": null,
         "date": "30 Sep"
     },
     {
         "0": "SRH",
         "1": "PBKS",
-        "res": null,
-        "venue": "Sharjah Cricket Stadium, Sharjah",
+        "res": "PBKS won by 5 runs",
+        "venue": null,
         "date": "1 Oct"
     },
     {
