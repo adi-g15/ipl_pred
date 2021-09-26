@@ -211,7 +211,7 @@ fetchData()
     .then(data => {
         window.ipl_json_data = data;
 
-        document.getElementById("extra_num").value = `${18 + get_num_finished_matches(window.ipl_json_data)}`;
+        document.getElementById("extra_num").value = `${Math.min(18 + get_num_finished_matches(window.ipl_json_data), 56)}`;
     })
 
 const matches_form = document.querySelector("#num_matches_form");
