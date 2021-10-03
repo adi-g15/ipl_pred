@@ -324,15 +324,15 @@
     {
         "0": "RR",
         "1": "CSK",
-        "res": null,
-        "venue": "Zayed Cricket Stadium, Abu Dhabi",
+        "res": "RR won by 7 wickets",
+        "venue": null,
         "date": "13 Oct"
     },
     {
         "0": "RCB",
         "1": "PBKS",
-        "res": null,
-        "venue": "Sharjah Cricket Stadium, Sharjah",
+        "res": "RCB won by 6 runs",
+        "venue": null,
         "date": "15 Oct"
     },
     {
