@@ -381,26 +381,26 @@
         "0": "SRH",
         "1": "MI",
         "res": null,
-        "venue": "Zayed Cricket Stadium, Abu Dhabi",
+        "venue": null,
         "date": null
     },
     {
         "0": "RCB",
         "1": "DC",
-        "res": null,
-        "venue": "Dubai International Stadium, Dubai",
+        "res": "RCB won by 7 wickets",
+        "venue": null,
         "date": null
     },
     {
         "0": "DC",
-        "1": "TBC",
+        "1": "CSK",
         "res": null,
         "venue": "Dubai International Stadium, Dubai",
         "date": null
     },
     {
-        "0": "TBC",
-        "1": "TBC",
+        "0": "RCB",
+        "1": "KKR",
         "res": null,
         "venue": "Sharjah Cricket Stadium, Sharjah",
         "date": null
