@@ -359,22 +359,22 @@
     {
         "0": "RCB",
         "1": "SRH",
-        "res": null,
-        "venue": "Zayed Cricket Stadium, Abu Dhabi",
+        "res": "SRH won by 4 runs",
+        "venue": null,
         "date": null
     },
     {
         "0": "CSK",
         "1": "PBKS",
-        "res": null,
-        "venue": "Dubai International Stadium, Dubai",
+        "res": "PBKS won by 6 wickets",
+        "venue": null,
         "date": null
     },
     {
         "0": "KKR",
         "1": "RR",
-        "res": null,
-        "venue": "Sharjah Cricket Stadium, Sharjah",
+        "res": "KKR won by 86 runs",
+        "venue": null,
         "date": null
     },
     {
@@ -392,7 +392,7 @@
         "date": null
     },
     {
-        "0": "TBC",
+        "0": "DC",
         "1": "TBC",
         "res": null,
         "venue": "Dubai International Stadium, Dubai",

@@ -519,6 +519,36 @@
         "DC": 100,
         "RR": 25
     },
+    "52": {
+        "CSK": 100,
+        "MI": 75,
+        "RCB": 100,
+        "SRH": 0,
+        "PBKS": 12.5,
+        "KKR": 75,
+        "DC": 100,
+        "RR": 25
+    },
+    "53": {
+        "CSK": 100,
+        "MI": 75,
+        "RCB": 100,
+        "SRH": 0,
+        "PBKS": 25,
+        "KKR": 75,
+        "DC": 100,
+        "RR": 25
+    },
+    "54": {
+        "CSK": 100,
+        "MI": 50,
+        "RCB": 100,
+        "SRH": 0,
+        "PBKS": 0,
+        "KKR": 100,
+        "DC": 100,
+        "RR": 0
+    },
     "msg": "This means that AFTER 0 matches, the probabilities of qualifications was this",
     "0_msg": "Actually calculated for 0 till 49 matches, though the qualify chances was exactly same, and will likely be like this even for upto 56 matchess",
     "1_msg": "Time elapsed: 980.4512s; Total Iterations: 12699466096",
@@ -614,5 +644,11 @@
     "50_msg": "Time elapsed: 0.000007862s; Total Iterations: 177",
     "50_min_q": 12,
     "51_msg": "Time elapsed: 0.000015014s; Total Iterations: 114",
-    "51_min_q": 12
+    "51_min_q": 12,
+    "52_msg": "Time elapsed: 0.00000468s; Total Iterations: 83",
+    "52_min_q": 12,
+    "53_msg": "Time elapsed: 0.000003283s; Total Iterations: 68",
+    "53_min_q": 12,
+    "54_msg": "Time elapsed: 0.0000044s; Total Iterations: 61",
+    "54_min_q": 14
 }
