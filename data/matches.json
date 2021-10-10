@@ -380,7 +380,7 @@
     {
         "0": "SRH",
         "1": "MI",
-        "res": null,
+        "res": "MI won by 42 runs",
         "venue": null,
         "date": null
     },
@@ -394,8 +394,8 @@
     {
         "0": "DC",
         "1": "CSK",
-        "res": null,
-        "venue": "Dubai International Stadium, Dubai",
+        "res": "CSK won by 4 wickets",
+        "venue": null,
         "date": null
     },
     {
@@ -406,14 +406,14 @@
         "date": null
     },
     {
-        "0": "TBC",
+        "0": "DC",
         "1": "TBC",
         "res": null,
         "venue": "Sharjah Cricket Stadium, Sharjah",
         "date": null
     },
     {
-        "0": "TBC",
+        "0": "CSK",
         "1": "TBC",
         "res": null,
         "venue": "Dubai International Stadium, Dubai",
