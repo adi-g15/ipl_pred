@@ -406,15 +406,15 @@
         "date": null
     },
     {
-        "0": "DC",
-        "1": "KKR",
-        "res": null,
-        "venue": "Sharjah Cricket Stadium, Sharjah",
+        "0": "KKR",
+        "1": "DC",
+        "res": "KKR won by 3 wickets",
+        "venue": null,
         "date": null
     },
     {
         "0": "CSK",
-        "1": "TBC",
+        "1": "KKR",
         "res": null,
         "venue": "Dubai International Stadium, Dubai",
         "date": null
